@@ -1,0 +1,39 @@
+#!/bin/bash
+
+### nombre de cores et duree max du job
+##OAR -l walltime=00:10:30
+##OAR -l core=24
+### nodes reserve pour le TP
+### nodes reserve pour le TP
+##OAR -p host='n-in27' or host='n_in28' or host='n-in29' or host='n-in30' or host='n-in31' or host='n-in35' or host='n-in36' or host='n-in37' or host='n-in39' or host='n-in40'
+#OAR -n tp3
+#OAR -O %jobid%.log
+#OAR -E %jobid%.log
+
+### execution par oar de hello compile Intel
+### usage1 : oarsub -S ./run.oar
+### usage2 : oarsub -l core=320 -S ./run.oar
+
+module load gcc7.3
+module load openmpi3.0.1-gcc7.3.0
+
+# For debugging, OAR looks really uncomfortable ... 
+# env
+cat $OAR_NODE_FILE
+cat $OAR_RESOURCE_PROPERTIES_FILE
+
+echo "Start computation"
+date
+# Get the number of MPI tasks
+CORES=$(cat $OAR_NODE_FILE | wc -l)
+echo "Execution on $CORES cores"
+         
+HOSTS=$(cat $OAR_NODE_FILE) ; 
+OAR_HOSTS=$(echo $HOSTS | sed "s/ /,/g"); 
+
+MPIRUN="$MPI_HOME/bin/mpirun -n $CORES -host $OAR_HOSTS $MPI_PARAM" 
+
+$MPIRUN tp -gamma 1 -n 1024
+
+echo "End computation"
+
