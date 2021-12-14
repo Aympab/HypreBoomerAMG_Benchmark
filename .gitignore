@@ -1,3 +1,3 @@
 /hypre/
-/bin_hypre/
+/bin_hypre/hypre_cuda/hypre/
 *.o

@@ -1,0 +1,16 @@
+===============
+Without cuda :
+	>> That took 0.001413 seconds
+
+
+Size = 5000
+
+MPI = 3
+	>> That took 37.399042 seconds
+
+MPI = 8 
+	>> That took 29.900778 seconds
+
+
+================
+With cuda :

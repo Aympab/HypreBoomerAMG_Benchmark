@@ -13,7 +13,8 @@ F90       = mpifort
 #HYPRE_DIR = ../hypre
 #HYPRE_DIR = /home/christophe/Works/Projects/hypre/src/hypre
 #HYPRE_DIR = /gext/christophe.bovet/hypre/src/hypre
-HYPRE_DIR = bin_hypre/hypre
+HYPRE_DIR = bin_hypre/hypre_cuda/hypre
+#HYPRE_DIR = bin_hypre/hypre/hypre
 ########################################################################
 # Compiling and linking options
 ########################################################################
@@ -32,10 +33,9 @@ CXXFLAGS  = $(CXXOPTS) $(CXXINCLUDES) $(CXXDEFS) $(IFLAGS_BXX)
 IF90FLAGS = 
 F90FLAGS = $(FFLAGS) $(IF90FLAGS)
 
-
 LINKOPTS  = $(COPTS)
 LIBS      = -L$(HYPRE_DIR)/lib -lHYPRE -lm
-LFLAGS    = $(LINKOPTS) $(LIBS) -lstdc++
+LFLAGS    = $(LINKOPTS) $(LIBS) -lstdc++ 
 LFLAGS_B =\
  -L${HYPRE_DIR}/lib\
  -lbHYPREClient-C\
@@ -52,7 +52,7 @@ LFLAGS90 =
 .SUFFIXES: .c .f .cxx .f90
 
 .c.o:
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -c  $< 
 .f.o:
 	$(F77) $(FFLAGS) -c $<
 .cxx.o:
