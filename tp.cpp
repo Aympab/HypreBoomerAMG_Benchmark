@@ -183,7 +183,7 @@ int main (int argc, char *argv[])
 
            n = my_matrix.rows();
 
-           std::cout << "Done !" << std::endl;
+           std::cout << "Done ! n = " << n << std::endl;
        }
    }
 
@@ -209,10 +209,6 @@ int main (int argc, char *argv[])
    /* How many rows do I have? */
    local_size = iupper - ilower + 1;
 
-   std::cout << ">>> Proc " << myid+1 << "/" << num_procs << " : " << std::endl;
-   printf("\t>>> ilower : %d, iupper : %d, size : %d\n", \
-                            ilower, iupper, local_size);
-
    /* Create the matrix.
       Note that this is a square matrix, so we indicate the row partition
       size twice (since number of rows = number of cols) */
@@ -233,6 +229,7 @@ int main (int argc, char *argv[])
       Note that here we are setting one row at a time, though
       one could set all the rows together (see the User's Manual).
    */
+   if(filename == nullptr)
    {
       int nnz;
       double values[5];
@@ -282,6 +279,36 @@ int main (int argc, char *argv[])
          /* Set the values for row i */
          HYPRE_IJMatrixSetValues(A, 1, &nnz, &i, cols, values);
       }
+   }
+   //We load matrix from file
+   else{
+       double* values = my_matrix.valuePtr();
+       int* cols = my_matrix.innerIndexPtr();
+       int* rows = my_matrix.outerIndexPtr();
+
+       if(myid==0) std::cout << my_matrix << std::endl;
+
+       std::cout << "+++++++++++++++++++++++++\nPROC " << myid << '\n';
+       printf("\t>>> ilower : %d, iupper : %d, size : %d\n",    \
+                                ilower, iupper, local_size);
+       std::cout << "> First value : " << values[ilower] << '\n';
+       std::cout << "> First col   : " << cols[ilower] << '\n';
+       std::cout << "> First rows ptr : " << rows[ilower] << '\n';
+       std::cout << "+++++++++++++++++++++++++++++++++++++" << '\n';
+
+       return 0;
+       int nnz;
+
+       for (i = ilower; i <= iupper; i++)
+       {
+
+          nnz = 0;
+
+          std::cout << values[i] << std ::endl;
+
+          HYPRE_IJMatrixSetValues(A, 1, &nnz, &i, cols, values);
+       }
+
    }
 
    /* Assemble after setting the coefficients */
