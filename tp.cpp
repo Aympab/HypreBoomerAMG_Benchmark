@@ -67,7 +67,10 @@ int main (int argc, char *argv[])
 
    HYPRE_Solver solver, precond;
 
-   const char* filename;
+   /* Used load and read a .mtx file */
+   const char* filename = nullptr;
+   typedef Eigen::SparseMatrix<double, Eigen::RowMajor>SMatrixXf;
+   SMatrixXf my_matrix;
 
    /* Initialize MPI */
    MPI_Init(&argc, &argv);
@@ -173,12 +176,14 @@ int main (int argc, char *argv[])
       }
 
       //Loading matrix from .mtx file
-       if(myid == 0){
+      //if(myid == 0 && filename != nullptr){
+       if(filename != nullptr){
            std::cout << "Loading Matrix from " << filename << "...\n";
-           typedef Eigen::SparseMatrix<double, Eigen::RowMajor>SMatrixXf;
-           SMatrixXf test;
-           Eigen::loadMarket(test, filename);
-           std::cout << "Done !" << test << std::endl;
+           Eigen::loadMarket(my_matrix, filename);
+
+           n = my_matrix.rows();
+
+           std::cout << "Done !" << std::endl;
        }
    }
 
@@ -203,6 +208,10 @@ int main (int argc, char *argv[])
 
    /* How many rows do I have? */
    local_size = iupper - ilower + 1;
+
+   std::cout << ">>> Proc " << myid+1 << "/" << num_procs << " : " << std::endl;
+   printf("\t>>> ilower : %d, iupper : %d, size : %d\n", \
+                            ilower, iupper, local_size);
 
    /* Create the matrix.
       Note that this is a square matrix, so we indicate the row partition
@@ -389,6 +398,7 @@ int main (int argc, char *argv[])
    if (myid == 0)
    {
       printf("\n");
+      printf("Problem size = %d\n", N);
       printf("Iterations = %d\n", num_iterations);
       printf("Final Relative Residual Norm = %e\n", final_res_norm);
       printf("\n");
