@@ -133,7 +133,6 @@ int main (int argc, char *argv[])
          }
          else if ( strcmp(argv[arg_index], "-file") == 0 ){
              arg_index++; filename = argv[arg_index++];
-             return 0;
          }
          else if ( strcmp(argv[arg_index], "-help") == 0 )
          {
@@ -151,6 +150,7 @@ int main (int argc, char *argv[])
          printf("\n");
          printf("Usage: %s [<options>]\n", argv[0]);
          printf("\n");
+         printf("  -file                 : Path to csr .mtx file to solve\n");
          printf("  -n <n>                : problem size in each direction (default: 33)\n");
          printf("  -max_levels <n>       : Sets maximum number of multigrid levels (default: 25)\n");
          printf("  -gamma <d>            : Sets AMG gamma (1=V-cycle, 2=W-cycle) (default: 1)\n");
@@ -172,9 +172,14 @@ int main (int argc, char *argv[])
          return (0);
       }
 
-
-
-
+      //Loading matrix from .mtx file
+       if(myid == 0){
+           std::cout << "Loading Matrix from " << filename << "...\n";
+           typedef Eigen::SparseMatrix<double, Eigen::RowMajor>SMatrixXf;
+           SMatrixXf test;
+           Eigen::loadMarket(test, filename);
+           std::cout << "Done !" << test << std::endl;
+       }
    }
 
    /* Preliminaries: want at least one processor per row */
