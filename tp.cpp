@@ -29,6 +29,7 @@
 #include "HYPRE.h"
 #include "HYPRE_parcsr_ls.h"
 #include "eigen-3.3.7/unsupported/Eigen/SparseExtra"
+#include "eigen-3.3.7/Eigen/Sparse"
 #include "vis.c"
 #include <iostream>
 
@@ -71,14 +72,23 @@ int main (int argc, char *argv[])
    MPI_Comm_rank(MPI_COMM_WORLD, &myid);
    MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
 
-   printf("C > Hello, I am proc number %d/%d\n", myid+1, num_procs);
-   std::cout << "CXX > Hello, I am proc number " << myid << "/" << num_procs << std::endl;
+   //printf("C > Hello, I am proc number %d/%d\n", myid+1, num_procs);
+   //std::cout << "CXX > Hello, I am proc number " << myid+1 << "/" << num_procs << std::endl;
 
    /* Default problem parameters */
    n = 33;
    vis = 0;
    print_system = 0;
 
+   //Loading matrix from .mtx file
+   if(myid == 0){
+       std::cout << "Loading Matrix from file...\n";
+       typedef Eigen::SparseMatrix<double, Eigen::RowMajor>SMatrixXf;
+       SMatrixXf test;
+       Eigen::loadMarket(test, "matrixes/abb313/abb313.mtx");
+       std::cout << "Done !" << std::endl;
+
+   }
 
    /* Parse command line */
    {
@@ -165,6 +175,10 @@ int main (int argc, char *argv[])
          MPI_Finalize();
          return (0);
       }
+
+
+
+
    }
 
    /* Preliminaries: want at least one processor per row */
