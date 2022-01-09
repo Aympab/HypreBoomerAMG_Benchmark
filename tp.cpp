@@ -32,6 +32,7 @@
 #include "eigen-3.3.7/Eigen/Sparse"
 #include "vis.c"
 #include <iostream>
+#include <vector>
 
 
 
@@ -290,65 +291,76 @@ int main (int argc, char *argv[])
        double* values = my_matrix.valuePtr();
        int* cols = my_matrix.innerIndexPtr();
        int* rows = my_matrix.outerIndexPtr();
-
-       if(myid==0){
-           if(n < 10) std::cout << my_matrix << std::endl;
-
-           std::cout << "Values : [";
-           for(int i = 0; i < my_matrix.nonZeros(); ++i){
-               std::cout << values[i];
-               if(i < my_matrix.nonZeros() - 1){
-                   std::cout << ", ";
-               }
-               else{
-                   std::cout << "]" << std::endl;
-               }
-           }
-
-           std::cout << "Cols : [";
-           for(int i = 0; i < my_matrix.nonZeros(); ++i){
-               std::cout << cols[i];
-               if(i < my_matrix.nonZeros() - 1){
-                   std::cout << ", ";
-               }
-               else{
-                   std::cout << "]" << std::endl;
-               }
-           }
-
-           std::cout << "Rows : [";
-           for(int i = 0; i < n+1; ++i){
-               std::cout << rows[i];
-               if(i < n){
-                   std::cout << ", ";
-               }
-               else{
-                   std::cout << "]" << std::endl;
-               }
-           }
-       }
-
-       std::cout << "+++++++++++++++++++++++++\nPROC " << myid << '\n';
-       printf("\t>>> ilower : %d, iupper : %d, size : %d\n",    \
-                                ilower, iupper, local_size);
-       std::cout << "> First value : " << values[ilower] << '\n';
-       std::cout << "> First col   : " << cols[ilower] << '\n';
-       std::cout << "> First rows ptr : " << rows[ilower] << '\n';
-       std::cout << "+++++++++++++++++++++++++++++++++++++" << '\n';
-
-       return 0;
        int nnz;
 
-       for (i = ilower; i <= iupper; i++)
+       std::vector<int> my_rows;
+//       if(myid > 0 || num_procs == 1)
+//            my_rows.assign(rows, rows + local_size + 1);
+//       else
+            my_rows.assign(rows+ilower, rows + ilower + local_size + 1);
+
        {
+           if(myid==0){
+               if(n < 10) std::cout << my_matrix << std::endl;
 
-          nnz = 0;
+               std::cout << "Values : [";
+               for(int i = 0; i < my_matrix.nonZeros(); ++i){
+                   std::cout << values[i];
+                   if(i < my_matrix.nonZeros() - 1){
+                       std::cout << ", ";
+                   }
+                   else{
+                       std::cout << "]" << std::endl;
+                   }
+               }
 
-          std::cout << values[i] << std ::endl;
+               std::cout << "Cols : [";
+               for(int i = 0; i < my_matrix.nonZeros(); ++i){
+                   std::cout << cols[i];
+                   if(i < my_matrix.nonZeros() - 1){
+                       std::cout << ", ";
+                   }
+                   else{
+                       std::cout << "]" << std::endl;
+                   }
+               }
 
-          HYPRE_IJMatrixSetValues(A, 1, &nnz, &i, cols, values);
+               std::cout << "Rows : [";
+               for(int i = 0; i < n+1; ++i){
+                   std::cout << rows[i];
+                   if(i < n){
+                       std::cout << ", ";
+                   }
+                   else{
+                       std::cout << "]" << std::endl;
+                   }
+               }
+           }
+
+           std::cout << "+++++++++++++++++++++++++\nPROC " << myid << '\n';
+           printf("\t>>> ilower : %d, iupper : %d, size : %d\n",    \
+                                    ilower, iupper, local_size);
+           //std::cout << "> First value : " << values[ilower] << '\n';
+           //std::cout << "> First col   : " << cols[ilower] << '\n';
+           //std::cout << "> First rows ptr : " << rows[ilower] << '\n';
+           std::cout << "> My rows : [";
+           int max = local_size+1;
+
+           //if(myid > 0 || num_procs == 1) max++;
+
+           for(int i = 0; i < max; ++i){
+               std::cout << my_rows[i];
+               if(i < max -1) std::cout << ", ";
+               else std::cout << "]\n";
+           }
+
+           std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++" \
+                        << std::endl;
        }
+       return 0;
 
+
+       HYPRE_IJMatrixSetValues(A, 1, &nnz, &i, cols, values);
    }
 
    /* Assemble after setting the coefficients */
