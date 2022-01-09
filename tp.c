@@ -41,15 +41,15 @@ int main (int argc, char *argv[])
 
    int ilower, iupper;
    int local_size, extra;
-   
-   // Parameters 
+
+   // Parameters
    int max_levels = 25;
    int gamma = 1;
-   int nu = 1; 
-   int relax_type = 3; 
-   int interp_type = 0; 
-   int coarsen_type = 6; 
-   int agg_levels  = 0; 
+   int nu = 1;
+   int relax_type = 3;
+   int interp_type = 0;
+   int coarsen_type = 6;
+   int agg_levels  = 0;
    int vis, print_system;
    double strong_threshold = 0.25;
    double tolerance = 1.e-8;
@@ -70,6 +70,9 @@ int main (int argc, char *argv[])
    MPI_Comm_rank(MPI_COMM_WORLD, &myid);
    MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
 
+   printf("> Hello, I am proc number %d/%d\n", myid+1, num_procs);
+   //std::cout << "Hello, I am proc number " << myid << "/" << num_procs << std::endl;
+
    /* Default problem parameters */
    n = 33;
    vis = 0;
@@ -88,31 +91,31 @@ int main (int argc, char *argv[])
             arg_index++;
             n = atoi(argv[arg_index++]);
          }
-         else if ( strcmp(argv[arg_index], "-max_levels") == 0 ) { 
+         else if ( strcmp(argv[arg_index], "-max_levels") == 0 ) {
 		 arg_index++; max_levels = atoi(argv[arg_index++]);
          }
-         else if ( strcmp(argv[arg_index], "-gamma") == 0 ) { 
+         else if ( strcmp(argv[arg_index], "-gamma") == 0 ) {
 		 arg_index++; gamma = atoi(argv[arg_index++]);
          }
-         else if ( strcmp(argv[arg_index], "-nu") == 0 ) { 
+         else if ( strcmp(argv[arg_index], "-nu") == 0 ) {
 		 arg_index++; nu = atoi(argv[arg_index++]);
          }
-         else if ( strcmp(argv[arg_index], "-relax_type") == 0 ) { 
+         else if ( strcmp(argv[arg_index], "-relax_type") == 0 ) {
 		 arg_index++; relax_type = atoi(argv[arg_index++]);
          }
-         else if ( strcmp(argv[arg_index], "-interp_type") == 0 ) { 
+         else if ( strcmp(argv[arg_index], "-interp_type") == 0 ) {
 		 arg_index++; interp_type = atoi(argv[arg_index++]);
          }
-         else if ( strcmp(argv[arg_index], "-coarsen_type") == 0 ) { 
+         else if ( strcmp(argv[arg_index], "-coarsen_type") == 0 ) {
 		 arg_index++; coarsen_type = atoi(argv[arg_index++]);
          }
-         else if ( strcmp(argv[arg_index], "-agg_levels") == 0 ) { 
+         else if ( strcmp(argv[arg_index], "-agg_levels") == 0 ) {
 		 arg_index++; agg_levels = atoi(argv[arg_index++]);
          }
-         else if ( strcmp(argv[arg_index], "-strong_threshold") == 0 ) { 
+         else if ( strcmp(argv[arg_index], "-strong_threshold") == 0 ) {
 		 arg_index++; strong_threshold = atof(argv[arg_index++]);
          }
-         else if ( strcmp(argv[arg_index], "-tolerance") == 0 ) { 
+         else if ( strcmp(argv[arg_index], "-tolerance") == 0 ) {
 		 arg_index++; tolerance = atof(argv[arg_index++]);
          }
          else if ( strcmp(argv[arg_index], "-vis") == 0 )
@@ -348,8 +351,8 @@ int main (int argc, char *argv[])
    HYPRE_BoomerAMGSetPrintLevel(solver, 3);  /* print solve info + parameters */
    // HYPRE_BoomerAMGSetOldDefault(solver); /* Falgout coarsening with modified classical interpolaiton */
    HYPRE_BoomerAMGSetRelaxOrder(solver, 1);   /* uses C/F relaxation */
-   
-   // Customization 
+
+   // Customization
    HYPRE_BoomerAMGSetMaxLevels(solver, max_levels);  /* maximum number of levels */
    HYPRE_BoomerAMGSetCycleType(solver, gamma);       /* Cycle type */
    HYPRE_BoomerAMGSetNumSweeps(solver, nu);          /* Sweeeps on each level */
@@ -374,7 +377,7 @@ int main (int argc, char *argv[])
       printf("Final Relative Residual Norm = %e\n", final_res_norm);
       printf("\n");
    }
-   
+
    endtime = MPI_Wtime();
    if(myid == 0) printf("That took %f seconds\n",endtime-starttime);
 
@@ -430,4 +433,3 @@ int main (int argc, char *argv[])
 
    return(0);
 }
-
