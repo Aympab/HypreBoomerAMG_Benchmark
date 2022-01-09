@@ -294,10 +294,18 @@ int main (int argc, char *argv[])
        int nnz;
 
        std::vector<int> my_rows;
-//       if(myid > 0 || num_procs == 1)
-//            my_rows.assign(rows, rows + local_size + 1);
-//       else
-            my_rows.assign(rows+ilower, rows + ilower + local_size + 1);
+       my_rows.assign(rows+ilower, rows + ilower + local_size + 1);
+
+       int index_low  = my_rows[0];
+       int index_high = my_rows[my_rows.size() - 1] - 1;
+
+       //printf("index low : %d, index high : %d\n",index_low, index_high);
+
+       std::vector<int> my_cols;
+       my_cols.assign(cols + index_low, cols + index_high + 1);
+
+       std::vector<double> my_values;
+       my_values.assign(values + index_low, values + index_high + 1);
 
        {
            if(myid==0){
@@ -337,16 +345,27 @@ int main (int argc, char *argv[])
                }
            }
 
-           std::cout << "+++++++++++++++++++++++++\nPROC " << myid << '\n';
+           std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++" \
+                << "\nPROC " << myid << '\n';
            printf("\t>>> ilower : %d, iupper : %d, size : %d\n",    \
                                     ilower, iupper, local_size);
-           //std::cout << "> First value : " << values[ilower] << '\n';
-           //std::cout << "> First col   : " << cols[ilower] << '\n';
-           //std::cout << "> First rows ptr : " << rows[ilower] << '\n';
+
+           std::cout << "> My Values : [";
+           for(int i = 0; i < my_values.size(); ++i){
+               std::cout << my_values[i];
+               if(i < my_values.size() -1) std::cout << ", ";
+               else std::cout << "]\n";
+           }
+
+           std::cout << "> My cols : [";
+           for(int i = 0; i < my_cols.size(); ++i){
+               std::cout << my_cols[i];
+               if(i < my_cols.size() -1) std::cout << ", ";
+               else std::cout << "]\n";
+           }
+
            std::cout << "> My rows : [";
            int max = local_size+1;
-
-           //if(myid > 0 || num_procs == 1) max++;
 
            for(int i = 0; i < max; ++i){
                std::cout << my_rows[i];
@@ -354,7 +373,7 @@ int main (int argc, char *argv[])
                else std::cout << "]\n";
            }
 
-           std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++" \
+           std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++" \
                         << std::endl;
        }
        return 0;
