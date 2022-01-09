@@ -67,6 +67,8 @@ int main (int argc, char *argv[])
 
    HYPRE_Solver solver, precond;
 
+   const char* filename;
+
    /* Initialize MPI */
    MPI_Init(&argc, &argv);
    MPI_Comm_rank(MPI_COMM_WORLD, &myid);
@@ -79,16 +81,6 @@ int main (int argc, char *argv[])
    n = 33;
    vis = 0;
    print_system = 0;
-
-   //Loading matrix from .mtx file
-   if(myid == 0){
-       std::cout << "Loading Matrix from file...\n";
-       typedef Eigen::SparseMatrix<double, Eigen::RowMajor>SMatrixXf;
-       SMatrixXf test;
-       Eigen::loadMarket(test, "matrixes/abb313/abb313.mtx");
-       std::cout << "Done !" << std::endl;
-
-   }
 
    /* Parse command line */
    {
@@ -138,6 +130,10 @@ int main (int argc, char *argv[])
          {
             arg_index++;
             print_system = 1;
+         }
+         else if ( strcmp(argv[arg_index], "-file") == 0 ){
+             arg_index++; filename = argv[arg_index++];
+             return 0;
          }
          else if ( strcmp(argv[arg_index], "-help") == 0 )
          {
