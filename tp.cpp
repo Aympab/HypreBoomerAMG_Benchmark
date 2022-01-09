@@ -181,6 +181,7 @@ int main (int argc, char *argv[])
            std::cout << "Loading Matrix from " << filename << "...\n";
            Eigen::loadMarket(my_matrix, filename);
 
+           my_matrix.makeCompressed();
            n = my_matrix.rows();
 
            std::cout << "Done ! n = " << n << std::endl;
@@ -189,7 +190,11 @@ int main (int argc, char *argv[])
 
    /* Preliminaries: want at least one processor per row */
    if (n*n < num_procs) n = sqrt(num_procs) + 1;
-   N = n*n; /* global number of rows */
+
+   /* global number of rows */
+   if(filename == nullptr) N = n*n;
+   else N = n;
+
    h = 1.0/(n+1); /* mesh size*/
    h2 = h*h;
 
@@ -286,7 +291,42 @@ int main (int argc, char *argv[])
        int* cols = my_matrix.innerIndexPtr();
        int* rows = my_matrix.outerIndexPtr();
 
-       if(myid==0) std::cout << my_matrix << std::endl;
+       if(myid==0){
+           if(n < 10) std::cout << my_matrix << std::endl;
+
+           std::cout << "Values : [";
+           for(int i = 0; i < my_matrix.nonZeros(); ++i){
+               std::cout << values[i];
+               if(i < my_matrix.nonZeros() - 1){
+                   std::cout << ", ";
+               }
+               else{
+                   std::cout << "]" << std::endl;
+               }
+           }
+
+           std::cout << "Cols : [";
+           for(int i = 0; i < my_matrix.nonZeros(); ++i){
+               std::cout << cols[i];
+               if(i < my_matrix.nonZeros() - 1){
+                   std::cout << ", ";
+               }
+               else{
+                   std::cout << "]" << std::endl;
+               }
+           }
+
+           std::cout << "Rows : [";
+           for(int i = 0; i < n+1; ++i){
+               std::cout << rows[i];
+               if(i < n){
+                   std::cout << ", ";
+               }
+               else{
+                   std::cout << "]" << std::endl;
+               }
+           }
+       }
 
        std::cout << "+++++++++++++++++++++++++\nPROC " << myid << '\n';
        printf("\t>>> ilower : %d, iupper : %d, size : %d\n",    \
