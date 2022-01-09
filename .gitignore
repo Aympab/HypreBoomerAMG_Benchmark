@@ -1,3 +1,5 @@
 /hypre/
 /bin_hypre/hypre_cuda/hypre/
+/bin_hypre/hypre/
 *.o
+tp
