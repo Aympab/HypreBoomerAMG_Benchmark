@@ -42,7 +42,7 @@ LFLAGS_B =\
  -lbHYPREClient-CX\
  -lbHYPREClient-F\
  -lbHYPRE\
- -lsidl -ldl -lxml2
+ -lsidl -ldl -lxml2\
 LFLAGS77 = $(LFLAGS)
 LFLAGS90 =
 

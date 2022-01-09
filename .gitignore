@@ -3,3 +3,5 @@
 /bin_hypre/hypre/
 *.o
 tp
+IJ.out.*
+*.mtx
