@@ -72,7 +72,7 @@ default: all
 # Example 5
 ########################################################################
 tp: tp.o
-	$(CC) -o $@ $^ $(LFLAGS)
+	$(CXX) -o $@ $^ $(LFLAGS)
 
 original: original.o
 	$(CC) -o $@ $^ $(LFLAGS)

@@ -28,8 +28,9 @@
 #include "HYPRE_krylov.h"
 #include "HYPRE.h"
 #include "HYPRE_parcsr_ls.h"
-
+#include "eigen-3.3.7/unsupported/Eigen/SparseExtra"
 #include "vis.c"
+#include <iostream>
 
 
 
@@ -70,8 +71,8 @@ int main (int argc, char *argv[])
    MPI_Comm_rank(MPI_COMM_WORLD, &myid);
    MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
 
-   printf("> Hello, I am proc number %d/%d\n", myid+1, num_procs);
-   //std::cout << "Hello, I am proc number " << myid << "/" << num_procs << std::endl;
+   printf("C > Hello, I am proc number %d/%d\n", myid+1, num_procs);
+   std::cout << "CXX > Hello, I am proc number " << myid << "/" << num_procs << std::endl;
 
    /* Default problem parameters */
    n = 33;
