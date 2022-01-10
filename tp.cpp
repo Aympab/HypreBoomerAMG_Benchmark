@@ -399,13 +399,14 @@ int main (int argc, char *argv[])
            int stopidx = my_rows[i+1] - my_rows[0] - 1;
            int row_nnz = stopidx - startidx + 1;
 
+
            std::vector<double> row_values;
            row_values.assign(my_values.data() + startidx, my_values.data() + startidx + row_nnz);
 
            std::vector<int> row_cols;
            row_cols.assign(my_cols.data() + startidx, my_cols.data() + startidx + row_nnz);
 
-           HYPRE_IJMatrixSetValues(A, 1, &row_nnz, &numrow, cols, my_values.data());
+           HYPRE_IJMatrixSetValues(A, 1, &row_nnz, &numrow, row_cols.data(), row_values.data());
        }
        //HYPRE_IJMatrixSetValues(A, local_size, &nnz, &rowsize, my_cols.data(), my_values.data());
 
