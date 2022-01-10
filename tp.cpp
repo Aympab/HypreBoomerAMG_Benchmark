@@ -399,6 +399,14 @@ int main (int argc, char *argv[])
            HYPRE_IJMatrixSetValues(A, 1, &nnz, &i, cols, values);
        }*/
        //HYPRE_IJMatrixSetValues(A, local_size, &nnz, &rowsize, my_cols.data(), my_values.data());
+
+       //TODO : Ici on donne une taille de row a 1 donc il faut avoir NB PROC == NB ROWS ET QUE LA MATRICE SOIT CARREE
+       if(num_procs != n){
+           std::cout << "Error , number of proc should be the number of rows" << std::endl;
+           //mpirun -np 14 ./tp -file matrixes/squared/LFAT5_14x14.mtx
+           MPI_Finalize();
+           return -1;
+       }
        HYPRE_IJMatrixSetValues(A, 1, &nnz, &ilower, my_cols.data(), my_values.data());
    }
 
