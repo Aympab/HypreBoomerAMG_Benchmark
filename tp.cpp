@@ -80,6 +80,7 @@ int main (int argc, char *argv[])
 
    //printf("C > Hello, I am proc number %d/%d\n", myid+1, num_procs);
    //std::cout << "CXX > Hello, I am proc number " << myid+1 << "/" << num_procs << std::endl;
+   int debug = 0;
 
    /* Default problem parameters */
    n = 33;
@@ -130,6 +131,11 @@ int main (int argc, char *argv[])
             arg_index++;
             vis = 1;
          }
+         else if ( strcmp(argv[arg_index], "-debug") == 0 )
+         {
+            arg_index++;
+            debug = 1;
+         }
          else if ( strcmp(argv[arg_index], "-print_system") == 0 )
          {
             arg_index++;
@@ -167,6 +173,7 @@ int main (int argc, char *argv[])
          printf("  -tolerance <f>        : Convergence threshold (default: 1.e-8)\n");
          printf("  -vis                  : save the solution for GLVis visualization\n");
          printf("  -print_system         : print the matrix and rhs\n");
+         printf("  -debug                : Console debug displays (0,1)\n");
          printf("\n");
       }
 
@@ -185,7 +192,7 @@ int main (int argc, char *argv[])
            my_matrix.makeCompressed();
            n = my_matrix.rows();
 
-           std::cout << "Done ! n = " << n << std::endl;
+           std::cout << "Matrix loaded !" << std::endl;
        }
    }
 
@@ -218,8 +225,14 @@ int main (int argc, char *argv[])
    /* Create the matrix.
       Note that this is a square matrix, so we indicate the row partition
       size twice (since number of rows = number of cols) */
-   HYPRE_IJMatrixCreate(MPI_COMM_WORLD, ilower, iupper, ilower, iupper, &A);
+    printf(" > Creating with %d, %d\nrows :%d, cols:%d\n", ilower, iupper, my_matrix.rows(), my_matrix.cols());
+    HYPRE_IJMatrixCreate(MPI_COMM_WORLD, ilower, iupper, ilower, iupper, &A);
 
+/*   else{
+       printf(" > Creating with %d, %d, %d, %d\n", ilower, iupper, 0, my_matrix.cols());
+       HYPRE_IJMatrixCreate(MPI_COMM_WORLD, ilower, iupper, 0, my_matrix.cols(), &A);
+   }
+*/
    /* Choose a parallel csr format storage (see the User's Manual) */
    HYPRE_IJMatrixSetObjectType(A, HYPRE_PARCSR);
 
@@ -307,6 +320,9 @@ int main (int argc, char *argv[])
        std::vector<double> my_values;
        my_values.assign(values + index_low, values + index_high + 1);
 
+       nnz = (int)my_values.size();
+
+       if(debug == 1)
        {
            if(myid==0){
                if(n < 10) std::cout << my_matrix << std::endl;
@@ -376,10 +392,14 @@ int main (int argc, char *argv[])
            std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++" \
                         << std::endl;
        }
-       return 0;
+/*       for(int i = 0; i < my_rows.size(); ++i){
+           int nnz = 0;
 
 
-       HYPRE_IJMatrixSetValues(A, 1, &nnz, &i, cols, values);
+           HYPRE_IJMatrixSetValues(A, 1, &nnz, &i, cols, values);
+       }*/
+       //HYPRE_IJMatrixSetValues(A, local_size, &nnz, &rowsize, my_cols.data(), my_values.data());
+       HYPRE_IJMatrixSetValues(A, 1, &nnz, &ilower, my_cols.data(), my_values.data());
    }
 
    /* Assemble after setting the coefficients */
