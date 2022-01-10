@@ -225,7 +225,7 @@ int main (int argc, char *argv[])
    /* Create the matrix.
       Note that this is a square matrix, so we indicate the row partition
       size twice (since number of rows = number of cols) */
-    printf(" > Creating with %d, %d\nrows :%d, cols:%d\n", ilower, iupper, my_matrix.rows(), my_matrix.cols());
+    //printf(" > Creating with %d, %d\nrows :%d, cols:%d\n", ilower, iupper, my_matrix.rows(), my_matrix.cols());
     HYPRE_IJMatrixCreate(MPI_COMM_WORLD, ilower, iupper, ilower, iupper, &A);
 
 /*   else{
@@ -392,22 +392,31 @@ int main (int argc, char *argv[])
            std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++" \
                         << std::endl;
        }
-/*       for(int i = 0; i < my_rows.size(); ++i){
-           int nnz = 0;
+       for(int i = 0; i < my_rows.size()-1; ++i){
+           int numrow = ilower + i;
 
+           int startidx = my_rows[i] - my_rows[0];
+           int stopidx = my_rows[i+1] - my_rows[0] - 1;
+           int row_nnz = stopidx - startidx + 1;
 
-           HYPRE_IJMatrixSetValues(A, 1, &nnz, &i, cols, values);
-       }*/
+           std::vector<double> row_values;
+           row_values.assign(my_values.data() + startidx, my_values.data() + startidx + row_nnz);
+
+           std::vector<int> row_cols;
+           row_cols.assign(my_cols.data() + startidx, my_cols.data() + startidx + row_nnz);
+
+           HYPRE_IJMatrixSetValues(A, 1, &row_nnz, &numrow, cols, my_values.data());
+       }
        //HYPRE_IJMatrixSetValues(A, local_size, &nnz, &rowsize, my_cols.data(), my_values.data());
 
        //TODO : Ici on donne une taille de row a 1 donc il faut avoir NB PROC == NB ROWS ET QUE LA MATRICE SOIT CARREE
-       if(num_procs != n){
-           std::cout << "Error , number of proc should be the number of rows" << std::endl;
+       //if(num_procs != n){
+           //std::cout << "Error , number of proc should be the number of rows" << std::endl;
            //mpirun -np 14 ./tp -file matrixes/squared/LFAT5_14x14.mtx
-           MPI_Finalize();
-           return -1;
-       }
-       HYPRE_IJMatrixSetValues(A, 1, &nnz, &ilower, my_cols.data(), my_values.data());
+           //MPI_Finalize();
+           //return -1;
+       //}
+       //HYPRE_IJMatrixSetValues(A, 1, &nnz, &ilower, my_cols.data(), my_values.data());
    }
 
    /* Assemble after setting the coefficients */
