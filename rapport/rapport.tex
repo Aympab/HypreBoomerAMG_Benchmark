@@ -122,15 +122,16 @@ le professeur, vous trouverez le code commenté dans le fichier \code{tp.cpp}
 
 Cette partie est une réalisation du sujet de TP3.
 
-% \begin{figure}[H]
-%   \centering
-%   \caption{Rapport de performance DenseMV}
-%   \includegraphics[width=0.49\textwidth]{figures/densemv_benchmark.png}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \caption{Étude d'extensibilité faible}
+    \includegraphics[width=0.45\textwidth]{fig/weak_scalab.png}
+  \end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% ETUDE
+%% ETUDE STRONG
 \section{Étude d'extensibilité forte}
 
 Dans cette partie, nous avons utilisé la matrice
@@ -141,29 +142,75 @@ $4\times 10^6$ nnz., et $923136$ lignes et colonnes.
 \begin{figure}[H]
   \centering
   \caption{Profil de Emilia923}
-  \includegraphics[width=0.42\textwidth]{fig/Emilia923.png}
+  \includegraphics[width=0.3\textwidth]{fig/Emilia923.png}
 \end{figure}
 
-En gardant ce problème tout au long de l'étude, nous allons augmenter le nombre
-de processus MPI en parralèle. Voici les résultats de ces exécutions :
+En gardant ce même problème tout au long de l'étude, nous allons augmenter 
+le nombre de processus MPI en parralèle. Nous montons jusqu'à $3 \times 28 = 84$
+processus car cela correspond à $3$ noeuds de calcul du cluster CEMEF complets.
+Nous avons délimité par la ligne horizontale rouge le nombre de coeurs pour un
+même noeud.
+Voici les résultats de ces exécutions :
+
+\begin{figure}[H]
+    \centering
+    \caption{Étude d'extensibilité forte}
+    \includegraphics[width=0.45\textwidth]{fig/strong_scalab.png}
+  \end{figure}
+
+Une première chose assez flagrante que l'on peut remarquer ici est que dès que
+l'on sort du même noeud de calcul, et que les communications MPI se font entre 
+différents noeuds, le temps de calcul augmente.
+Notez bien que nous avons pris soin de
+réserver trois noeuds qui se trouvent côte a côte sur le cluster !
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ETUDE STRONG
+\section{Étude de l'impact de la distance physique entre deux 
+noeuds sur le CEMEF}
+
+Nous avons mis un certain temps avant de réaliser que certains de nos calculs
+devenaient longs à cause de la séparation des CPUs sur plusieurs nodes. En effet
+, en augmentant d'un le nombre de processus MPI, les calculs devenaient parfois
+100x plus lents. En investiguant de plus près, nous nous sommes rendu compte que
+non seulement être sur plusieurs nodes est coûteux en temps communication,
+mais aussi que plus la distance physique entre ces noeuds de calcul est grande,
+plus le temps de calcul semble multiplié.
+
+Pour en avoir le coeur net, nous avons décidé de réaliser une dernière étude. Il
+s'agit du temps de calcul pour un problème de taille fixe et pour 2 processus
+MPI. L'idée est d'avoir deux CPU qui sont bien sur deux noeuds différents, et de
+faire varier la distance entre ces noeuds (i.e. de choisir des noeuds plus
+éloignés physiquement sur le cluster à chaque itération). Voici les résultats
+que nous avons obtenus :
 
 % \begin{figure}[H]
 %     \centering
-%     \caption{Extensibilité forte}
-%     \includegraphics[width=0.42\textwidth]{fig/Emilia923.png}
+%     \caption{Étude d'extensibilité forte}
+%     \includegraphics[width=0.50\textwidth]{fig/strong_scalab.png}
 %   \end{figure}
 
-On voit bien que blablabla.
-
+Nous pouvons imaginer que dans un problème réel, pour couvrir le coût de ces
+communications, il faudrait que le temps de calcul sur chaque processeur
+soit plus important que ce temps de communication. De tout évidence, ce n'est
+pas le cas pour notre problème.
 
 \section*{Conclusions}
 
-METTRE LE CONSTAT QUE SI ON PREND PLUS DE UN NODE CA DEFONCE LES PERF !
-METTRE CONCLUSION TECHNIQUE ICI
-Une fois les outils et les concepts (un peu) appropriés, nous nous sommes rendu
-compte du confort qu'apporte l'utilisation d'une librairie telle que HYPRE,
-qui masque l'implémentation des communications MPI. C'est quand même assez
-agréable et rassurant.
+Les courbes que nous obtenons avec les profilings d'extensibilité forte et
+faible correspondent à ce que nous avions vu en cours, il n'y a donc pas
+particulièrement de surpise à ce niveau là. Cependant, l'étude "approfondie"
+que nous avons mené nous a permis de découvrir de nouveaux aspects de la
+programmation haute performance. Entre autres, nous avons réalisé que la
+distance physique qui sépare les nodes est un facteur majeur sur la performance.
+Une fois les outils et les concepts (un peu) appropriés, nous nous sommes aussi
+rendus compte du confort qu'apporte l'utilisation
+d'une librairie telle que HYPRE,
+qui masque l'implémentation des communications MPI. C'est quand même un niveau
+d'abstraction qui rend la programmation assez agréable et rassurante, tout en
+nous permettant de garder un contrôle sur la performance
+car nous restons dans un langage bas niveau avec le C/C++.
 
 \section*{Axes d'amélioration}
 - Split par value et pas par row car on est en CSR
