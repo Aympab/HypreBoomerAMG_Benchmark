@@ -1,0 +1,173 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\def\code#1{\texttt{#1}}
+\usepackage{natbib}
+%% Language and font encodings
+\usepackage[french]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+%% More packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\bibliographystyle{unsrt}
+%% Title
+\title{
+		\usefont{OT1}{bch}{b}{n}
+		\normalfont \normalsize \textsc{Mines ParisTech - Ms HPC-AI} \\ [10pt]
+		\huge Projet d'Algèbre Linéaire Distribuée :\\ Profiling de BoomerAMG \\
+}
+\selectlanguage{french}
+\usepackage{authblk}
+\author{Julian AURIAC \& Aymeric MILLAN}
+\affil{Cours de Christophe BOVET}
+\date{17 Janvier 2022}
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% RESUME
+\begin{abstract}
+Voici le document regroupant nos benchmarks de
+\href{https://hypre.readthedocs.io/en/latest/solvers-boomeramg.html}{BoomerAMG},
+inclus dans la librairie
+\href{https://hypre.readthedocs.io/en/latest/index.html}{HYPRE}.
+
+L'objectif du projet est double : il s'agit d'abord d'appliquer les méthodes de
+résolution multigrilles algébriques de BoomerAMG sur des
+\href{https://sparse.tamu.edu/}{matrices de problématiques réelles} au format
+\code{.mtx} (Matrix Market).
+Le deuxième objectif du projet est la réalisation de deux études
+d'extensibilités :
+\begin{description}
+    \item [\textbullet\space Faible :] En partant de $1$ processus MPI et
+d'un problème de taille $256 \times 256$, nous doublons la taille du problème
+\textbf{et} le nombre de CPU qui travaillent sur le problème.
+    \item [\textbullet\space Forte :] Avec
+\href{https://sparse.tamu.edu/Janna/Emilia_923}{un problème de taille fiche}
+au format Matrix Market, nous augmentons le nombre de processus MPI/CPU.
+\end{description}
+
+Nous mesurons dans les deux cas les temps d'exécutions de la résolution d'un
+système de la forme $Au = f$, avec $A$ la matrice de départ (i.e l'observation),
+$f$ la solution vers laquelle on veut converger (i.e le résultat) et $u$
+le système que l'on cherche a trouver.
+
+En plus de ces outils, ce projet apporte une vision générale sur les
+méthodologies de développement sur des clusters de calculs comme celui du CEMEF. 
+Nous avons pu approfondir les concepts tels que la réservation des coeurs de
+calcul, le partage de ressources ou encore les scripts automatisés,
+ici avec \code{OAR}.
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% RECUPERER LE CODE
+\section{Récupérer le code}
+Le code est disponible sur
+\href{https://github.com/Aympab/HypreBoomerAMG_Benchmark}{ce repo GitHub}.
+Vous pourrez aussi trouver le code et une archive dans nos repertoires
+personnels sur le CEMEF. Le code est déjà compilé sur le cluster.
+
+Nous avons ajouté l'option \code{-file} à l'exécution qui permet de préciser
+un chemin d'accès relatif vers un fichier au format .mtx. Le code fonctionne
+pour des \textbf{matrices carrées} uniquement. Attention, avec les options par 
+défaut (e.g \code{-gamma}, le cycle AMG utilisé, V par défaut), seulement les
+matrices diagonales permettent de converger vers une solution. Nous avons 
+téléchargé quelques matrices de ce type dans le répertoire \code{matrices}, 
+à la racinne du projet.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Implémentation
+\section{Logique d'implémentation}
+
+Pour le benchmarking, nous avons utilisé un script shell qui formate les données
+des logs OAR en fichiers csv.
+Ensuite, à l'aide de python et surtout de la librairie \code{pandas}, nous avons
+traité les données pour les visualiser ici.
+Les données brutes sont disponibles dans le répertoire \code{logs/} du projet.
+
+Pour ce qui est de la lecture de fichier \code{.mtx} et le découpage sur les
+différents coeurs de calculs, nous avons utilisé la librairie
+\href{https://eigen.tuxfamily.org/index.php?title=Main_Page}{Eigen}.
+La difficulté était premièrement de s'approprier la librairie, notamment les
+méthodes pour accéder aux données brutes (i.e. \code{raw buffers}), dans le but
+de les envoyer à l'autre librairie, HYPRE. L'interfaçage entre les deux
+librairies a été pour nous la difficulté de ce projet (et donc l'axe
+d'amélioration).
+
+Nous avons essayé de réutiliser au maximum le code qui était déjà développé par
+le professeur, vous trouverez le code commenté dans le fichier \code{tp.cpp}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ETUDE
+\section{Étude d'extensibilité faible}
+
+Cette partie est une réalisation du sujet de TP3.
+
+% \begin{figure}[H]
+%   \centering
+%   \caption{Rapport de performance DenseMV}
+%   \includegraphics[width=0.49\textwidth]{figures/densemv_benchmark.png}
+% \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ETUDE
+\section{Étude d'extensibilité forte}
+
+Dans cette partie, nous avons utilisé la matrice
+\href{https://sparse.tamu.edu/Janna/Emilia_923}{Emilia923}, qui est issue d'un
+problème de géomécanique. C'est une matrice symétrique définie positive avec 
+$4\times 10^6$ nnz., et $923136$ lignes et colonnes.
+
+\begin{figure}[H]
+  \centering
+  \caption{Profil de Emilia923}
+  \includegraphics[width=0.42\textwidth]{fig/Emilia923.png}
+\end{figure}
+
+En gardant ce problème tout au long de l'étude, nous allons augmenter le nombre
+de processus MPI en parralèle. Voici les résultats de ces exécutions :
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Extensibilité forte}
+%     \includegraphics[width=0.42\textwidth]{fig/Emilia923.png}
+%   \end{figure}
+
+On voit bien que blablabla.
+
+
+\section*{Conclusions}
+
+METTRE LE CONSTAT QUE SI ON PREND PLUS DE UN NODE CA DEFONCE LES PERF !
+METTRE CONCLUSION TECHNIQUE ICI
+Une fois les outils et les concepts (un peu) appropriés, nous nous sommes rendu
+compte du confort qu'apporte l'utilisation d'une librairie telle que HYPRE,
+qui masque l'implémentation des communications MPI. C'est quand même assez
+agréable et rassurant.
+
+\section*{Axes d'amélioration}
+- Split par value et pas par row car on est en CSR
+
+- eviter le loading de la matrice pour tous les CPU pour voir la
+différence entre le coup de la communication, ou alors le chargement dans toutes les RAM (qui 
+est la solution naive)
+
+- Donner la possibilité d'importer le vecteur solution depuis un fichier
+
+- Compiler Hypre avec GPU pour faire des comparaisons (essayé sur l'ordi mais 
+pas maintenu pour les nouvelles versions de CUDA, donc il faut une version de
+linux datant de 2012 environ, donc c'est l'enfer pour trouver les drivers de NVIDIA
+qui bougent chaque année presque)
+-
+\bibliography{bibliography}
+\end{document}

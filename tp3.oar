@@ -27,13 +27,12 @@ date
 # Get the number of MPI tasks
 CORES=$(cat $OAR_NODE_FILE | wc -l)
 echo "Execution on $CORES cores"
-         
-HOSTS=$(cat $OAR_NODE_FILE) ; 
-OAR_HOSTS=$(echo $HOSTS | sed "s/ /,/g"); 
 
-MPIRUN="$MPI_HOME/bin/mpirun -n $CORES -host $OAR_HOSTS $MPI_PARAM" 
+HOSTS=$(cat $OAR_NODE_FILE) ;
+OAR_HOSTS=$(echo $HOSTS | sed "s/ /,/g");
 
-$MPIRUN tp -gamma 1 -n 1024
+MPIRUN="$MPI_HOME/bin/mpirun -n $CORES -host $OAR_HOSTS $MPI_PARAM"
+
+$MPIRUN ./tp -gamma 1 -n 1024
 
 echo "End computation"
-

@@ -66,9 +66,9 @@ int main (int argc, char *argv[])
    HYPRE_IJVector x;
    HYPRE_ParVector par_x;
 
-   HYPRE_Solver solver, precond;
+   HYPRE_Solver solver;//, precond; removing this unused variable
 
-   /* Used load and read a .mtx file */
+   /* Used to load and read a .mtx file */
    const char* filename = nullptr;
    typedef Eigen::SparseMatrix<double, Eigen::RowMajor>SMatrixXf;
    SMatrixXf my_matrix;
@@ -189,7 +189,7 @@ int main (int argc, char *argv[])
            std::cout << "Loading Matrix from " << filename << "...\n";
            Eigen::loadMarket(my_matrix, filename);
 
-           my_matrix.makeCompressed();
+           //my_matrix.makeCompressed();
            n = my_matrix.rows();
 
            std::cout << "Matrix loaded !" << std::endl;
@@ -199,7 +199,10 @@ int main (int argc, char *argv[])
    /* Preliminaries: want at least one processor per row */
    if (n*n < num_procs) n = sqrt(num_procs) + 1;
 
-   /* global number of rows */
+   /* global number of rows
+        If we load the matrix from file, N is the same as n,
+        to simplify the work (teacher already did that so it's nicely coded)
+   */
    if(filename == nullptr) N = n*n;
    else N = n;
 
@@ -225,7 +228,6 @@ int main (int argc, char *argv[])
    /* Create the matrix.
       Note that this is a square matrix, so we indicate the row partition
       size twice (since number of rows = number of cols) */
-    printf(" > Creating with %d, %d\nrows :%d, cols:%d\n", ilower, iupper, my_matrix.rows(), my_matrix.cols());
     HYPRE_IJMatrixCreate(MPI_COMM_WORLD, ilower, iupper, ilower, iupper, &A);
 
 /*   else{
@@ -304,23 +306,22 @@ int main (int argc, char *argv[])
        double* values = my_matrix.valuePtr();
        int* cols = my_matrix.innerIndexPtr();
        int* rows = my_matrix.outerIndexPtr();
-       int nnz;
 
-       std::vector<int> my_rows;
-       my_rows.assign(rows+ilower, rows + ilower + local_size + 1);
+       std::vector<int> my_rows{rows+ilower, rows + ilower + local_size + 1};
+       //my_rows.assign(rows+ilower, rows + ilower + local_size + 1);
 
        int index_low  = my_rows[0];
        int index_high = my_rows[my_rows.size() - 1] - 1;
 
        //printf("index low : %d, index high : %d\n",index_low, index_high);
 
-       std::vector<int> my_cols;
-       my_cols.assign(cols + index_low, cols + index_high + 1);
+       std::vector<int> my_cols{cols + index_low, cols + index_high + 1};
+       //my_cols.assign(cols + index_low, cols + index_high + 1);
 
-       std::vector<double> my_values;
-       my_values.assign(values + index_low, values + index_high + 1);
+       std::vector<double> my_values{values + index_low, values + index_high + 1};
+       //my_values.assign(values + index_low, values + index_high + 1);
 
-       nnz = (int)my_values.size();
+       //nnz = (int)my_values.size();
 
        if(debug == 1)
        {
@@ -367,23 +368,23 @@ int main (int argc, char *argv[])
                                     ilower, iupper, local_size);
 
            std::cout << "> My Values : [";
-           for(int i = 0; i < my_values.size(); ++i){
+           for(size_t i = 0; i < my_values.size(); ++i){
                std::cout << my_values[i];
                if(i < my_values.size() -1) std::cout << ", ";
                else std::cout << "]\n";
            }
 
            std::cout << "> My cols : [";
-           for(int i = 0; i < my_cols.size(); ++i){
+           for(size_t i = 0; i < my_cols.size(); ++i){
                std::cout << my_cols[i];
                if(i < my_cols.size() -1) std::cout << ", ";
                else std::cout << "]\n";
            }
 
            std::cout << "> My rows : [";
-           int max = local_size+1;
+           size_t max = local_size+1;
 
-           for(int i = 0; i < max; ++i){
+           for(size_t i = 0; i < max; ++i){
                std::cout << my_rows[i];
                if(i < max -1) std::cout << ", ";
                else std::cout << "]\n";
@@ -392,14 +393,27 @@ int main (int argc, char *argv[])
            std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++" \
                         << std::endl;
        }
-/*       for(int i = 0; i < my_rows.size(); ++i){
-           int nnz = 0;
+       /* We are iterating over the local rows ptr for each processes
+       We take elements 2 by 2, compute the local number of nnz for this row,
+       then we take the values from startindex + i to startindex + i + row_nnz
+       and feed this to HYPRE_IJMatrixSetValues
+       */
+       for(size_t i = 0; i < my_rows.size()-1; ++i){
+           int numrow = ilower + i;
 
+           int startidx = my_rows[i] - my_rows[0];
+           int stopidx = my_rows[i+1] - my_rows[0] - 1;
+           int row_nnz = stopidx - startidx + 1;
 
-           HYPRE_IJMatrixSetValues(A, 1, &nnz, &i, cols, values);
-       }*/
-       //HYPRE_IJMatrixSetValues(A, local_size, &nnz, &rowsize, my_cols.data(), my_values.data());
-       HYPRE_IJMatrixSetValues(A, 1, &nnz, &ilower, my_cols.data(), my_values.data());
+           std::vector<double> row_values{my_values.data() + startidx, my_values.data() + startidx + row_nnz};
+           //row_values.assign(my_values.data() + startidx, my_values.data() + startidx + row_nnz);
+
+           std::vector<int> row_cols{my_cols.data() + startidx, my_cols.data() + startidx + row_nnz};
+           //row_cols.assign(my_cols.data() + startidx, my_cols.data() + startidx + row_nnz);
+
+           HYPRE_IJMatrixSetValues(A, 1, &row_nnz, &numrow, row_cols.data(), row_values.data());
+       }
+
    }
 
    /* Assemble after setting the coefficients */
@@ -443,8 +457,9 @@ int main (int argc, char *argv[])
 
       for (i=0; i<local_size; i++)
       {
-         rhs_values[i] = h2;
-         x_values[i] = 0.0;
+         //rhs_values[i] = h2;
+         rhs_values[i] = 5.3;
+	 x_values[i] = 0.0;
          rows[i] = ilower + i;
       }
 
