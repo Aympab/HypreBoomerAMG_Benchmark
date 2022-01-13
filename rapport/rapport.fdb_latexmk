@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex rapport"] 1642083163 "rapport.aux" "rapport.bbl" "rapport" 1642083166
+["bibtex rapport"] 1642092002 "rapport.aux" "rapport.bbl" "rapport" 1642092005
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/unsrt.bst" 1291864736 18030 1376b4b231b50c66211e47e42eda2875 ""
   "bibliography.bib" 0 -1 0 ""
-  "rapport.aux" 1642083165 1583 9144cf3eb10e0518f81e5af8eccb49ba "pdflatex"
+  "rapport.aux" 1642092004 1583 9144cf3eb10e0518f81e5af8eccb49ba "pdflatex"
   (generated)
   "rapport.bbl"
   "rapport.blg"
-["pdflatex"] 1642083164 "c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex" "rapport.pdf" "rapport" 1642083166
+["pdflatex"] 1642092002 "c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex" "rapport.pdf" "rapport" 1642092005
   "C:/Users/aympa/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1638483982 9715384 93c75dee34a6d1b20cf78fc15ebd87de ""
   "C:/Users/aympa/AppData/Local/MiKTeX/pdftex/config/pdftex.map" 1641830341 279641 6abc4a04a43ace2bbb05492e51790a4f ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1001771820 2971 def0b6c1f0b107b3b936def894055589 ""
@@ -129,6 +129,7 @@
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/base/t1cmtt.fd" 1623738100 2443 6dd9a5deeddddfcceb01d1932590ebad ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/carlisle/scalefnt.sty" 1522604221 1360 df2086bf924b14b72d6121fe9502fcdb ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/epstopdf-pkg/epstopdf-base.sty" 1622999586 13886 d1306dcf79a944f6988e688c1785f9ce ""
+  "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/fancyhdr/fancyhdr.sty" 1612001844 17086 7ed8cbc4d361ec87392817e0dd4f65ec ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/float/float.sty" 1469020353 6916 16d2656a1984957e674b149555f1ea1d ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.cfg" 1578053545 1104 7ac475a4e3466b0b43e138e9356bda83 ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.sty" 1578053545 42759 9cf6c5257b1bc7af01a58859749dd37a ""
@@ -175,12 +176,13 @@
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1623002060 55589 34128738f682d033422ca125f82e5d62 ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1623002090 4902 efb3d66683a2da2a232f71e3a571a899 ""
-  "c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex" 1642083163 7538 1c78dd439b5042e135b08d635f392527 ""
+  "c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex" 1642092001 7865 9c597d0f022c0d0e170bd99f728eb96d ""
   "fig/Emilia923.png" 1642082479 11892 73d45bedcc20d73626aeaae2a0b3d879 ""
-  "rapport.aux" 1642083165 1583 9144cf3eb10e0518f81e5af8eccb49ba "pdflatex"
+  "fig/Logo_Mines_ParisTech.svg.png" 1642091748 152283 e125facfd7e4f99a2f301496f0ae356b ""
+  "rapport.aux" 1642092004 1583 9144cf3eb10e0518f81e5af8eccb49ba "pdflatex"
   "rapport.bbl" 0 -1 0 "bibtex rapport"
-  "rapport.out" 1642083165 694 1d0d625f697a01b6cfc8e5de4cd54eb8 "pdflatex"
-  "rapport.tex" 1642083163 7538 1c78dd439b5042e135b08d635f392527 ""
+  "rapport.out" 1642092004 694 1d0d625f697a01b6cfc8e5de4cd54eb8 "pdflatex"
+  "rapport.tex" 1642092001 7865 9c597d0f022c0d0e170bd99f728eb96d ""
   (generated)
   "rapport.aux"
   "rapport.log"

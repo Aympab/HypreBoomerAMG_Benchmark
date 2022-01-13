@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.12.2)  13 JAN 2022 15:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.12.2)  13 JAN 2022 17:40
 entering extended mode
 **c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex
 (c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex
@@ -505,10 +505,21 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 286.
 )
 \Hy@SectionHShift=\skip57
+) (C:\Users\aympa\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyhdr.sty
+Package: fancyhdr 2021/01/28 v4.0.1 Extensive control of page headers and footers
+\f@nch@headwidth=\skip58
+\f@nch@O@elh=\skip59
+\f@nch@O@erh=\skip60
+\f@nch@O@olh=\skip61
+\f@nch@O@orh=\skip62
+\f@nch@O@elf=\skip63
+\f@nch@O@erf=\skip64
+\f@nch@O@olf=\skip65
+\f@nch@O@orf=\skip66
 ) (C:\Users\aympa\AppData\Local\Programs\MiKTeX\tex/latex/preprint\authblk.sty
 Package: authblk 2001/02/27 1.3 (PWD)
-\affilsep=\skip58
-\@affilsep=\skip59
+\affilsep=\skip67
+\@affilsep=\skip68
 \c@Maxaffil=\count319
 \c@authors=\count320
 \c@affil=\count321
@@ -519,26 +530,26 @@ File: l3backend-pdftex.def 2021-08-04 L3 backend support: PDF output (pdfTeX)
 ) (rapport.aux)
 \openout1 = `rapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Info: Redefining \degres on input line 29.
-LaTeX Info: Redefining \up on input line 29.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Info: Redefining \degres on input line 32.
+LaTeX Info: Redefining \up on input line 32.
  (C:\Users\aympa\AppData\Local\Programs\MiKTeX\tex/latex/ucs\ucsencs.def
 File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
 )
@@ -596,9 +607,9 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 
-Package todonotes Warning: The length marginparwidth is less than 2cm and will most likely cause issues with the appearance of inserted todonotes. The issue can be solved by adding a line like \setlength {\marginparwidth }{2cm} prior to loading the todonotes package. on input line 29.
+Package todonotes Warning: The length marginparwidth is less than 2cm and will most likely cause issues with the appearance of inserted todonotes. The issue can be solved by adding a line like \setlength {\marginparwidth }{2cm} prior to loading the todonotes package. on input line 32.
 
-Package hyperref Info: Link coloring ON on input line 29.
+Package hyperref Info: Link coloring ON on input line 32.
 (C:\Users\aympa\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
  (C:\Users\aympa\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
@@ -608,24 +619,24 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count329
 )
-LaTeX Info: Redefining \ref on input line 29.
-LaTeX Info: Redefining \pageref on input line 29.
-LaTeX Info: Redefining \nameref on input line 29.
+LaTeX Info: Redefining \ref on input line 32.
+LaTeX Info: Redefining \pageref on input line 32.
+LaTeX Info: Redefining \nameref on input line 32.
  (rapport.out) (rapport.out)
 \@outlinefile=\write4
 \openout4 = `rapport.out'.
 
-LaTeX Font Info:    Trying to load font information for OT1+bch on input line 30.
+LaTeX Font Info:    Trying to load font information for OT1+bch on input line 40.
  (C:\Users\aympa\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1bch.fd
 File: ot1bch.fd 2004/10/18 font definitions for OT1/bch.
 ) (C:\Users\aympa\AppData\Local\Programs\MiKTeX\tex/latex/ucs\uni-0.def
 File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
 )
-Underfull \hbox (badness 1215) in paragraph at lines 36--40
+Underfull \hbox (badness 1215) in paragraph at lines 46--50
 []\T1/cmr/m/n/10 Voici le do-cu-ment re-grou-pant nos bench-
  []
 
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 44.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 54.
 (C:\Users\aympa\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 ) [1{C:/Users/aympa/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
@@ -635,30 +646,42 @@ File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 <fig/Emilia923.png, id=46, 348.92859pt x 348.92859pt>
 File: fig/Emilia923.png Graphic file (type png)
 <use fig/Emilia923.png>
-Package pdftex.def Info: fig/Emilia923.png  used on input line 134.
+Package pdftex.def Info: fig/Emilia923.png  used on input line 144.
 (pdftex.def)             Requested size: 179.25157pt x 179.25034pt.
 
-Underfull \hbox (badness 4341) in paragraph at lines 151--157
+Underfull \hbox (badness 4341) in paragraph at lines 161--167
 []\T1/cmr/m/n/10 METTRE LE CONSTAT QUE SI ON
  []
 
 No file rapport.bbl.
-[2 <./fig/Emilia923.png>] (rapport.aux)
+<fig/Logo_Mines_ParisTech.svg.png, id=48, 2569.6pt x 860.21375pt>
+File: fig/Logo_Mines_ParisTech.svg.png Graphic file (type png)
+<use fig/Logo_Mines_ParisTech.svg.png>
+Package pdftex.def Info: fig/Logo_Mines_ParisTech.svg.png  used on input line 183.
+(pdftex.def)             Requested size: 113.81102pt x 38.09103pt.
+
+Package fancyhdr Warning: \headheight is too small (26.0pt): 
+(fancyhdr)                Make it at least 41.69107pt, for example:
+(fancyhdr)                \setlength{\headheight}{41.69107pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-15.69107pt}.
+
+[2 <./fig/Logo_Mines_ParisTech.svg.png> <./fig/Emilia923.png>] (rapport.aux)
 Package rerunfilecheck Info: File `rapport.out' has not changed.
 (rerunfilecheck)             Checksum: 1D0D625F697A01B6CFC8E5DE4CD54EB8;694.
  ) 
 Here is how much of TeX's memory you used:
- 22967 strings out of 478927
- 415367 string characters out of 2852535
- 734082 words of memory out of 3000000
- 40406 multiletter control sequences out of 15000+600000
+ 23140 strings out of 478927
+ 417816 string characters out of 2852535
+ 737062 words of memory out of 3000000
+ 40574 multiletter control sequences out of 15000+600000
  411255 words of font info for 40 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,6n,97p,544b,724s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 99i,15n,97p,544b,724s stack positions out of 5000i,500n,10000p,200000b,80000s
 {C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/cm-super/cm-super-t1.enc}{C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfbx1000.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfbx1440.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfcc1000.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfrm1000.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfrm1200.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfrm2074.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on rapport.pdf (2 pages, 193864 bytes).
+Output written on rapport.pdf (2 pages, 327919 bytes).
 PDF statistics:
- 111 PDF objects out of 1000 (max. 8388607)
+ 113 PDF objects out of 1000 (max. 8388607)
  11 named destinations out of 1000 (max. 500000)
- 50 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 55 words of extra memory for PDF output out of 10000 (max. 10000000)
 
