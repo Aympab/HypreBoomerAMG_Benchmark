@@ -1,4 +1,0 @@
-#!/bin/bash
-module load gcc7.3
-module load openmpi3.0.1-gcc7.3.0
-#module load openmpi4.0.1-gcc7.3.0

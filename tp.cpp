@@ -189,7 +189,7 @@ int main (int argc, char *argv[])
            std::cout << "Loading Matrix from " << filename << "...\n";
            Eigen::loadMarket(my_matrix, filename);
 
-           my_matrix.makeCompressed();
+           //my_matrix.makeCompressed();
            n = my_matrix.rows();
 
            std::cout << "Matrix loaded !" << std::endl;
@@ -307,19 +307,19 @@ int main (int argc, char *argv[])
        int* cols = my_matrix.innerIndexPtr();
        int* rows = my_matrix.outerIndexPtr();
 
-       std::vector<int> my_rows;
-       my_rows.assign(rows+ilower, rows + ilower + local_size + 1);
+       std::vector<int> my_rows{rows+ilower, rows + ilower + local_size + 1};
+       //my_rows.assign(rows+ilower, rows + ilower + local_size + 1);
 
        int index_low  = my_rows[0];
        int index_high = my_rows[my_rows.size() - 1] - 1;
 
        //printf("index low : %d, index high : %d\n",index_low, index_high);
 
-       std::vector<int> my_cols;
-       my_cols.assign(cols + index_low, cols + index_high + 1);
+       std::vector<int> my_cols{cols + index_low, cols + index_high + 1};
+       //my_cols.assign(cols + index_low, cols + index_high + 1);
 
-       std::vector<double> my_values;
-       my_values.assign(values + index_low, values + index_high + 1);
+       std::vector<double> my_values{values + index_low, values + index_high + 1};
+       //my_values.assign(values + index_low, values + index_high + 1);
 
        //nnz = (int)my_values.size();
 
@@ -405,11 +405,11 @@ int main (int argc, char *argv[])
            int stopidx = my_rows[i+1] - my_rows[0] - 1;
            int row_nnz = stopidx - startidx + 1;
 
-           std::vector<double> row_values;
-           row_values.assign(my_values.data() + startidx, my_values.data() + startidx + row_nnz);
+           std::vector<double> row_values{my_values.data() + startidx, my_values.data() + startidx + row_nnz};
+           //row_values.assign(my_values.data() + startidx, my_values.data() + startidx + row_nnz);
 
-           std::vector<int> row_cols;
-           row_cols.assign(my_cols.data() + startidx, my_cols.data() + startidx + row_nnz);
+           std::vector<int> row_cols{my_cols.data() + startidx, my_cols.data() + startidx + row_nnz};
+           //row_cols.assign(my_cols.data() + startidx, my_cols.data() + startidx + row_nnz);
 
            HYPRE_IJMatrixSetValues(A, 1, &row_nnz, &numrow, row_cols.data(), row_values.data());
        }
@@ -457,8 +457,9 @@ int main (int argc, char *argv[])
 
       for (i=0; i<local_size; i++)
       {
-         rhs_values[i] = h2;
-         x_values[i] = 0.0;
+         //rhs_values[i] = h2;
+         rhs_values[i] = 5.3;
+	 x_values[i] = 0.0;
          rows[i] = ilower + i;
       }
 
