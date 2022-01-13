@@ -1,0 +1,120 @@
+
+
+ Num MPI tasks = 1
+
+ Num OpenMP threads = 1
+
+
+BoomerAMG SETUP PARAMETERS:
+
+ Max levels = 25
+ Num levels = 7
+
+ Strength Threshold = 0.250000
+ Interpolation Truncation Factor = 0.000000
+ Maximum Row Sum Threshold for Dependency Weakening = 0.900000
+
+ Coarsening Type = Falgout-CLJP 
+ measures are determined locally
+
+
+ No global partition option chosen.
+
+ Interpolation = modified classical interpolation
+
+Operator Matrix Information:
+
+             nonzero            entries/row          row sums
+lev    rows  entries sparse   min  max     avg      min         max
+======================================================================
+  0   10000    49600  0.000     3    5     5.0   0.000e+00   2.000e+00
+  1    5000    44202  0.002     4    9     8.8   0.000e+00   2.500e+00
+  2    1298    11480  0.007     4   12     8.8   0.000e+00   3.020e+00
+  3     337     2925  0.026     4   11     8.7  -1.110e-16   3.293e+00
+  4      89      767  0.097     5   14     8.6  -6.661e-16   2.913e+00
+  5      21      181  0.410     6   13     8.6   6.040e-02   2.280e+00
+  6       6       30  0.833     3    6     5.0   1.640e+00   2.468e+00
+
+
+Interpolation Matrix Information:
+                    entries/row        min        max            row sums
+lev  rows x cols  min  max  avgW     weight      weight       min         max
+================================================================================
+  0 10000 x 5000    1    4   4.0   2.500e-01   2.500e-01   5.000e-01   1.000e+00
+  1  5000 x 1298    1    4   2.7   7.143e-02   5.000e-01   2.857e-01   1.000e+00
+  2  1298 x 337     1    4   2.6   5.851e-02   5.503e-01   2.706e-01   1.000e+00
+  3   337 x 89      0    4   2.5   6.835e-02   5.301e-01   0.000e+00   1.000e+00
+  4    89 x 21      0    4   1.8   2.207e-02   5.284e-01   0.000e+00   1.000e+00
+  5    21 x 6       1    4   1.9   6.491e-02   5.023e-01   2.632e-01   1.000e+00
+
+
+     Complexity:    grid = 1.675100
+                operator = 2.201310
+                memory = 3.002601
+
+
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         20 
+  Stopping Tolerance:               1.000000e-08 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+            Number of sweeps:            1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     9 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         20 
+  Stopping Tolerance:               1.000000e-08 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+            Number of sweeps:            1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     9 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    9.802960e-03                 1.000000e+00
+    Cycle  1   1.273557e-03    0.129916     1.299155e-01 
+    Cycle  2   5.496291e-05    0.043157     5.606767e-03 
+    Cycle  3   2.518568e-06    0.045823     2.569191e-04 
+    Cycle  4   1.266451e-07    0.050285     1.291907e-05 
+    Cycle  5   6.649525e-09    0.052505     6.783180e-07 
+    Cycle  6   3.540355e-10    0.053242     3.611516e-08 
+    Cycle  7   1.877797e-11    0.053040     1.915540e-09 
+
+
+ Average Convergence Factor = 0.056835
+
+     Complexity:    grid = 1.675100
+                operator = 2.201310
+                   cycle = 4.402016
+
+
+
+
+Problem size = 10000
+Iterations = 7
+Final Relative Residual Norm = 1.915540e-09
+
+That took 0.012160 seconds

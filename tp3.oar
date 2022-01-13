@@ -38,7 +38,7 @@ if [ -f $MONPROG ] ; then
     np=${array[i]}
     nx=${array2[i]}
 
-    $MPIRUN -n $np $MONPROG -n $nx >> np${np}_nx${nx}.logs
+    $MPIRUN -n $np $MONPROG -n $nx >> ./log/weak/np${np}_nx${nx}.logs
 
   done
 else

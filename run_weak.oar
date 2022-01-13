@@ -3,12 +3,12 @@
 ### script pour executer des jobs sur Cluster Cemef
 ### A mettre dans le repertoire root
 ### nombre de cores et duree max du job
-#OAR -l core=56,walltime=100:20:30
+#OAR -l core=84,walltime=100:20:30
 ##OAR -p nbcores=28
 
 ###On veut un seul node sinon les perfs sont detruites
 ###Astuce : on fait un oarinfo -f pour voir ou on a au moins 28 coeurs dispo
-#OAR -p host='n-in59' or host='n-in60'
+#OAR -p host='n-in59' or host='n-in60' or host='n-in61'
 
 ###Nom du job et output et error file
 #OAR -n boomerAMG
@@ -27,8 +27,8 @@ date
 
 MPIRUN="/softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun"
 
-array=( 1 2 4 8 16 28 32 56 64 )
-array2=( 33 66 132 264 528 924 1056 1848 2112 )
+array=( 1 2 4 8 16 28 32 56 64 84 )
+array2=( 100 200 400 800 1600 2800 3200 5600 6400 8400 )
 
 set -x
 export OMP_NUM_THREADS=1
@@ -38,7 +38,7 @@ if [ -f $MONPROG ] ; then
     np=${array[i]}
     nx=${array2[i]}
 
-    $MPIRUN -n $np $MONPROG -n $nx >> np${np}_nx${nx}.logs
+    $MPIRUN -n $np $MONPROG -n $nx >> ./log/weak/np${np}_nx${nx}.logs
 
   done
 else
