@@ -27,8 +27,8 @@ date
 
 MPIRUN="/softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun"
 
-array=( 1 2 4 8 16 28 32 56 64 84 )
-array2=( 256 512 1024 2048 4096 7168 8192 14336 16752 21504)
+array=( 1 2 4 8 16 28 32 56 64 )
+array2=( 256 512 1024 2048 4096 7168 8192 14336 16752)
 
 set -x
 export OMP_NUM_THREADS=1

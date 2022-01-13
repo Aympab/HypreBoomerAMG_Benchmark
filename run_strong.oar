@@ -3,12 +3,12 @@
 ### script pour executer des jobs sur Cluster Cemef
 
 ### nombre de cores et duree max du job
-#OAR -l core=56,walltime=100:20:30
+#OAR -l core=84,walltime=100:20:30
 ##OAR -p nbcores=28
 
 ###On veut un seul node sinon les perfs sont detruites
 ###Astuce : on fait un oarinfo -f pour voir ou on a au moins 28 coeurs dispo
-#OAR -p host='n-in59' or host='n-in60'
+#OAR -p host='n-in59' or host='n-in60' or host='n-in61'
 
 ###Nom du job et output et error file
 #OAR -n boomerAMG
@@ -21,7 +21,7 @@
 
 ### indiquer votre executable
 MONPROG=/gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp
-MYDATA=./matrices/Emilia_923/Emilia_923.mtx
+MYDATA=/gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/matrices/Emilia_923/Emilia_923.mtx
 
 echo DEBUT
 date
@@ -32,10 +32,10 @@ set -x
 export OMP_NUM_THREADS=1
 
 if [ -f $MONPROG ] ; then
-  for np in 1 2 4 6 8 12 16 20 24 28 32 36 40 48 56
+  for np in 1 2 4 6 8 12 16 20 24 28 32 36 40 48 56 60 64 70 72 74 78 80 82 84
   do
     MPIRUN="$MPI_HOME/bin/mpirun -n ${np}"
-    $MPIRUN $MONPROG -file $MYDATA > log-emilia-NPI${np}
+    $MPIRUN $MONPROG -file $MYDATA > log/strong/log-emilia-NPI${np}
   done
 else
    echo "ERREUR : programme $MONPROG inexistant !!"
