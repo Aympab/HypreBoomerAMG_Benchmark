@@ -2,7 +2,7 @@ Loading Matrix from /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/mat
 Matrix loaded !
 
 
- Num MPI tasks = 12
+ Num MPI tasks = 60
 
  Num OpenMP threads = 1
 
@@ -10,7 +10,7 @@ Matrix loaded !
 BoomerAMG SETUP PARAMETERS:
 
  Max levels = 25
- Num levels = 8
+ Num levels = 9
 
  Strength Threshold = 0.250000
  Interpolation Truncation Factor = 0.000000
@@ -30,31 +30,33 @@ Operator Matrix Information:
 lev    rows  entries sparse   min  max     avg      min         max
 ======================================================================
   0  923136 20964171  0.000     1   48    22.7  -4.633e+13   4.969e+14
-  1  547751 15365103  0.000     1  112    28.1  -3.297e+13   5.547e+14
-  2  289930  9397155  0.000     1  205    32.4  -9.984e+12   5.618e+14
-  3  107730  4605444  0.000     1  260    42.7  -3.652e+11   7.590e+14
-  4   30257  1704293  0.002     1  254    56.3   2.797e+08   1.029e+14
-  5    6737   295082  0.007     1  155    43.8   3.152e+08   6.352e+12
-  6     787    10884  0.018     1   41    13.8   5.343e+08   9.503e+10
-  7      21       43  0.098     1    3     2.0   1.000e+07   3.984e+10
+  1  610230 16999003  0.000     1  133    27.9  -4.708e+13   8.297e+14
+  2  354763 11880687  0.000     1  217    33.5  -3.347e+13   8.232e+14
+  3  168224  7064846  0.000     1  289    42.0  -1.499e+12   9.950e+14
+  4   56858  3148517  0.001     1  396    55.4  -1.885e+11   3.751e+14
+  5   14109   798063  0.004     1  275    56.6   3.657e+08   1.725e+14
+  6    2489    73990  0.012     1   99    29.7   6.487e+08   5.849e+13
+  7     209     1796  0.041     1   26     8.6   1.000e+07   6.454e+10
+  8       9       16  0.198     1    3     1.8   1.000e+07   1.597e+10
 
 
 Interpolation Matrix Information:
                       entries/row        min        max            row sums
 lev   rows x cols   min  max  avgW     weight      weight       min         max
 ==================================================================================
-  0 923136 x 547751   0    4   1.6   1.438e-02   1.889e+00   0.000e+00   1.963e+00
-  1 547751 x 289930   0    4   1.0   7.573e-03   1.475e+00   0.000e+00   1.826e+00
-  2 289930 x 107730   0    4   0.6   7.312e-03   1.130e+00   0.000e+00   1.428e+00
-  3 107730 x 30257    0    4   0.4   5.818e-03   9.950e-01   0.000e+00   1.000e+00
-  4  30257 x 6737     0    4   0.3   6.922e-03   6.688e-01   0.000e+00   1.000e+00
-  5   6737 x 787      0    4   0.2   7.358e-03   4.580e-01   0.000e+00   1.000e+00
-  6    787 x 21       0    2   0.0   2.454e-02   3.464e-01   0.000e+00   1.000e+00
+  0 923136 x 610230   0    4   1.6   1.510e-02   1.841e+00   0.000e+00   1.941e+00
+  1 610230 x 354763   0    4   1.2   7.736e-03   1.474e+00   0.000e+00   1.875e+00
+  2 354763 x 168224   0    4   0.8   8.761e-03   1.296e+00   0.000e+00   1.533e+00
+  3 168224 x 56858    0    4   0.5   6.904e-03   1.037e+00   0.000e+00   1.037e+00
+  4  56858 x 14109    0    4   0.4   6.773e-03   8.857e-01   0.000e+00   1.185e+00
+  5  14109 x 2489     0    4   0.2   7.323e-03   5.828e-01   0.000e+00   1.000e+00
+  6   2489 x 209      0    4   0.1   1.571e-02   4.756e-01   0.000e+00   1.000e+00
+  7    209 x 9        0    2   0.1   3.301e-02   2.567e-01   0.000e+00   1.000e+00
 
 
-     Complexity:    grid = 2.065079
-                operator = 2.496744
-                memory = 2.590845
+     Complexity:    grid = 2.307382
+                operator = 2.906439
+                memory = 3.012574
 
 
 
@@ -68,7 +70,7 @@ BoomerAMG SOLVER PARAMETERS:
   Relaxation Parameters:
    Visiting Grid:                     down   up  coarse
             Number of sweeps:            1    1     1 
-   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     9 
    Point types, partial sweeps (1=C, -1=F):
                   Pre-CG relaxation (down):   1  -1
                    Post-CG relaxation (up):  -1   1
@@ -85,7 +87,7 @@ BoomerAMG SOLVER PARAMETERS:
   Relaxation Parameters:
    Visiting Grid:                     down   up  coarse
             Number of sweeps:            1    1     1 
-   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     9 
    Point types, partial sweeps (1=C, -1=F):
                   Pre-CG relaxation (down):   1  -1
                    Post-CG relaxation (up):  -1   1
@@ -99,29 +101,29 @@ AMG SOLUTION INFO:
                residual        factor       residual
                --------        ------       --------
     Initial    1.127458e-09                 1.000000e+00
-    Cycle  1   4.068681e-11    0.036087     3.608720e-02 
-    Cycle  2   2.726590e-12    0.067014     2.418351e-03 
-    Cycle  3   3.538235e-13    0.129768     3.138240e-04 
-    Cycle  4   5.904140e-14    0.166867     5.236681e-05 
-    Cycle  5   1.039346e-14    0.176037     9.218485e-06 
-    Cycle  6   1.864315e-15    0.179374     1.653555e-06 
-    Cycle  7   3.383927e-16    0.181510     3.001376e-07 
-    Cycle  8   6.194545e-17    0.183058     5.494256e-08 
-    Cycle  9   1.141741e-17    0.184314     1.012668e-08 
-    Cycle 10   2.116193e-18    0.185348     1.876959e-09 
+    Cycle  1   4.661977e-11    0.041349     4.134943e-02 
+    Cycle  2   3.983812e-12    0.085453     3.533445e-03 
+    Cycle  3   6.014244e-13    0.150967     5.334338e-04 
+    Cycle  4   8.810298e-14    0.146491     7.814300e-05 
+    Cycle  5   1.416201e-14    0.160744     1.256100e-05 
+    Cycle  6   2.462228e-15    0.173862     2.183875e-06 
+    Cycle  7   4.320917e-16    0.175488     3.832440e-07 
+    Cycle  8   7.500673e-17    0.173590     6.652727e-08 
+    Cycle  9   1.300530e-17    0.173388     1.153506e-08 
+    Cycle 10   2.321554e-18    0.178508     2.059104e-09 
 
 
- Average Convergence Factor = 0.134074
+ Average Convergence Factor = 0.135322
 
-     Complexity:    grid = 2.065079
-                operator = 2.496744
-                   cycle = 4.993487
+     Complexity:    grid = 2.307382
+                operator = 2.906439
+                   cycle = 5.812878
 
 
 
 
 Problem size = 923136
 Iterations = 10
-Final Relative Residual Norm = 1.876959e-09
+Final Relative Residual Norm = 2.059104e-09
 
-That took 1.628371 seconds
+That took 2.155616 seconds
