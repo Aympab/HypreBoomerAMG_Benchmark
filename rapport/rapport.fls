@@ -932,13 +932,6 @@ INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbx100
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\tcbx1000.tfm
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
-INPUT .\fig\weak_scalab.png
-INPUT .\fig\weak_scalab.png
-INPUT fig\weak_scalab.png
-INPUT .\fig\weak_scalab.png
-INPUT .\fig\weak_scalab.png
-INPUT .\fig\weak_scalab.png
-INPUT .\fig\weak_scalab.png
 INPUT C:\Users\aympa\AppData\Local\MiKTeX\pdftex\config\pdftex.map
 INPUT .\fig\Emilia923.png
 INPUT .\fig\Emilia923.png
@@ -954,6 +947,13 @@ INPUT .\fig\strong_scalab.png
 INPUT .\fig\strong_scalab.png
 INPUT .\fig\strong_scalab.png
 INPUT .\fig\strong_scalab.png
+INPUT .\fig\weak_scalab.png
+INPUT .\fig\weak_scalab.png
+INPUT fig\weak_scalab.png
+INPUT .\fig\weak_scalab.png
+INPUT .\fig\weak_scalab.png
+INPUT .\fig\weak_scalab.png
+INPUT .\fig\weak_scalab.png
 INPUT .\fig\Logo_Mines_ParisTech.svg.png
 INPUT .\fig\Logo_Mines_ParisTech.svg.png
 INPUT fig\Logo_Mines_ParisTech.svg.png

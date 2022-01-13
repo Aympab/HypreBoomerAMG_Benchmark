@@ -55,12 +55,12 @@ résolution multigrilles algébriques de BoomerAMG sur des
 Le deuxième objectif du projet est la réalisation de deux études
 d'extensibilités :
 \begin{description}
-    \item [\textbullet\space Faible :] En partant de $1$ processus MPI et
-d'un problème de taille $256 \times 256$, nous doublons la taille du problème
-\textbf{et} le nombre de CPU qui travaillent sur le problème.
     \item [\textbullet\space Forte :] Avec
 \href{https://sparse.tamu.edu/Janna/Emilia_923}{un problème de taille fiche}
 au format Matrix Market, nous augmentons le nombre de processus MPI/CPU.
+    \item [\textbullet\space Faible :] En partant de $1$ processus MPI et
+d'un problème de taille $256 \times 256$, nous doublons la taille du problème
+\textbf{et} le nombre de CPU qui travaillent sur le problème.
 \end{description}
 
 Nous mesurons dans les deux cas les temps d'exécutions de la résolution d'un
@@ -115,19 +115,6 @@ d'amélioration).
 Nous avons essayé de réutiliser au maximum le code qui était déjà développé par
 le professeur, vous trouverez le code commenté dans le fichier \code{tp.cpp}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% ETUDE
-\section{Étude d'extensibilité faible}
-
-Cette partie est une réalisation du sujet de TP3.
-
-\begin{figure}[H]
-    \centering
-    \caption{Étude d'extensibilité faible}
-    \includegraphics[width=0.45\textwidth]{fig/weak_scalab.png}
-  \end{figure}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,7 +153,24 @@ réserver trois noeuds qui se trouvent côte a côte sur le cluster !
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% ETUDE STRONG
+%% ETUDE
+\section{Étude d'extensibilité faible}
+
+Cette partie est une réalisation du sujet de TP3.
+
+\begin{figure}[H]
+    \centering
+    \caption{Étude d'extensibilité faible}
+    \includegraphics[width=0.45\textwidth]{fig/weak_scalab.png}
+  \end{figure}
+
+
+Une fois de plus, nous pouvons constater qu'il y a une divergence lorsque l'on
+sort d'un seul et même noeud de calcul.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ETUDE DISTANCE
 \section{Étude de l'impact de la distance physique entre deux 
 noeuds sur le CEMEF}
 
