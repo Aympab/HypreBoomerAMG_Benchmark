@@ -13,6 +13,9 @@
 \usepackage{graphicx}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[R]{Profiling BoomerAMG}
 
 \bibliographystyle{unsrt}
 %% Title
@@ -27,6 +30,13 @@
 \affil{Cours de Christophe BOVET}
 \date{17 Janvier 2022}
 \begin{document}
+
+%% just to make warning go away. Adjust the value after looking into the warning
+\setlength\headheight{26pt}
+% \rhead{{\color{blue}\rule{1cm}{1cm}}}
+
+\lhead{\includegraphics[width=4cm]{fig/Logo_Mines_ParisTech.svg.png}}
+
 \maketitle
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
