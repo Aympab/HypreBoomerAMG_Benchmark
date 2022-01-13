@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.12.2)  13 JAN 2022 23:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.12.2)  14 JAN 2022 00:26
 entering extended mode
 **c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex
 (c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex
@@ -639,30 +639,32 @@ Underfull \hbox (badness 1215) in paragraph at lines 46--50
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 54.
 (C:\Users\aympa\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-)
-<fig/weak_scalab.png, id=32, 940.26282pt x 627.09282pt>
-File: fig/weak_scalab.png Graphic file (type png)
-<use fig/weak_scalab.png>
-Package pdftex.def Info: fig/weak_scalab.png  used on input line 128.
-(pdftex.def)             Requested size: 192.0548pt x 128.086pt.
- [1{C:/Users/aympa/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
+) [1{C:/Users/aympa/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
 
 
 ]
-<fig/Emilia923.png, id=52, 348.92859pt x 348.92859pt>
+<fig/Emilia923.png, id=50, 348.92859pt x 348.92859pt>
 File: fig/Emilia923.png Graphic file (type png)
 <use fig/Emilia923.png>
-Package pdftex.def Info: fig/Emilia923.png  used on input line 145.
+Package pdftex.def Info: fig/Emilia923.png  used on input line 132.
 (pdftex.def)             Requested size: 128.0387pt x 128.03671pt.
-<fig/strong_scalab.png, id=53, 944.02687pt x 635.37375pt>
+<fig/strong_scalab.png, id=52, 940.26282pt x 630.10406pt>
 File: fig/strong_scalab.png Graphic file (type png)
 <use fig/strong_scalab.png>
-Package pdftex.def Info: fig/strong_scalab.png  used on input line 158.
-(pdftex.def)             Requested size: 192.0548pt x 129.25388pt.
+Package pdftex.def Info: fig/strong_scalab.png  used on input line 145.
+(pdftex.def)             Requested size: 192.0548pt x 128.70105pt.
+<fig/weak_scalab.png, id=53, 940.26282pt x 627.09282pt>
+File: fig/weak_scalab.png Graphic file (type png)
+<use fig/weak_scalab.png>
+Package pdftex.def Info: fig/weak_scalab.png  used on input line 164.
+(pdftex.def)             Requested size: 192.0548pt x 128.086pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 <fig/Logo_Mines_ParisTech.svg.png, id=54, 2569.6pt x 860.21375pt>
 File: fig/Logo_Mines_ParisTech.svg.png Graphic file (type png)
 <use fig/Logo_Mines_ParisTech.svg.png>
-Package pdftex.def Info: fig/Logo_Mines_ParisTech.svg.png  used on input line 214.
+Package pdftex.def Info: fig/Logo_Mines_ParisTech.svg.png  used on input line 218.
 (pdftex.def)             Requested size: 113.81102pt x 38.09103pt.
 
 
@@ -672,11 +674,11 @@ Package fancyhdr Warning: \headheight is too small (26.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-15.69107pt}.
 
-[2 <./fig/Logo_Mines_ParisTech.svg.png> <./fig/weak_scalab.png> <./fig/Emilia923.png> <./fig/strong_scalab.png>]
+[2 <./fig/Logo_Mines_ParisTech.svg.png> <./fig/Emilia923.png> <./fig/strong_scalab.png> <./fig/weak_scalab.png>]
 No file rapport.bbl.
 File: fig/Logo_Mines_ParisTech.svg.png Graphic file (type png)
 <use fig/Logo_Mines_ParisTech.svg.png>
-Package pdftex.def Info: fig/Logo_Mines_ParisTech.svg.png  used on input line 230.
+Package pdftex.def Info: fig/Logo_Mines_ParisTech.svg.png  used on input line 234.
 (pdftex.def)             Requested size: 113.81102pt x 38.09103pt.
 
 Package fancyhdr Warning: \headheight is too small (26.0pt): 
@@ -689,18 +691,18 @@ Package fancyhdr Warning: \headheight is too small (26.0pt):
 
 ] (rapport.aux)
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: D5C99D1D43E6EE46537B7D0F928E63EF;1136.
+(rerunfilecheck)             Checksum: C10268F18E9AF027F7257A3A87614B85;1136.
  ) 
 Here is how much of TeX's memory you used:
  23159 strings out of 478927
  418192 string characters out of 2852535
- 736063 words of memory out of 3000000
+ 737061 words of memory out of 3000000
  40587 multiletter control sequences out of 15000+600000
  411255 words of font info for 40 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,15n,97p,556b,724s stack positions out of 5000i,500n,10000p,200000b,80000s
 {C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/cm-super/cm-super-t1.enc}{C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfbx1000.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfbx1440.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfcc1000.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfrm1000.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfrm1200.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfrm2074.pfb><C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on rapport.pdf (3 pages, 434794 bytes).
+Output written on rapport.pdf (3 pages, 436633 bytes).
 PDF statistics:
  128 PDF objects out of 1000 (max. 8388607)
  15 named destinations out of 1000 (max. 500000)
