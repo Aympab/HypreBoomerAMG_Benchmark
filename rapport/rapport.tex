@@ -78,9 +78,9 @@ Nous avons ajouté l'option \code{-file} à l'exécution qui permet de préciser
 un chemin d'accès relatif vers un fichier au format .mtx. Le code fonctionne
 pour des \textbf{matrices carrées} uniquement. Attention, avec les options par 
 défaut (e.g \code{-gamma}, le cycle AMG utilisé, V par défaut), seulement les
-matrices diagonales permettent de converger vers une solution. Nous avons 
-téléchargé quelques matrices de ce type dans le répertoire \code{matrices}, 
-à la racinne du projet.
+matrices symétriques définies positives permettent de converger vers une
+solution. Nous avons téléchargé quelques matrices de ce type dans le répertoire
+\code{matrices}, à la racinne du projet.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -159,8 +159,8 @@ agréable et rassurant.
 - Split par value et pas par row car on est en CSR
 
 - eviter le loading de la matrice pour tous les CPU pour voir la
-différence entre le coup de la communication, ou alors le chargement dans toutes les RAM (qui 
-est la solution naive)
+différence entre le coup de la communication, ou alors le chargement dans 
+toutes les RAM (qui est la solution naive)
 
 - Donner la possibilité d'importer le vecteur solution depuis un fichier
 
