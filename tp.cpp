@@ -186,13 +186,25 @@ int main (int argc, char *argv[])
       //Loading matrix from .mtx file
       //if(myid == 0 && filename != nullptr){
        if(filename != nullptr){
-           std::cout << "Loading Matrix from " << filename << "...\n";
-           Eigen::loadMarket(my_matrix, filename);
+           
+	   if(myid == 0)
+	   	std::cout << "Loading Matrix from " << filename << "...\n";
+           
+	   Eigen::loadMarket(my_matrix, filename);
 
            //my_matrix.makeCompressed();
            n = my_matrix.rows();
+	   if(n == 0){
+		
+	        if(myid == 0)
+			std::cout << "File doesn't exist or is corrupted" << std::endl;
+		
+		MPI_Finalize();
+		return -1;
+	   }
 
-           std::cout << "Matrix loaded !" << std::endl;
+	   if(myid==0)
+           	std::cout << "Matrix loaded !" << std::endl;
        }
    }
 
@@ -457,8 +469,7 @@ int main (int argc, char *argv[])
 
       for (i=0; i<local_size; i++)
       {
-         //rhs_values[i] = h2;
-         rhs_values[i] = 5.3;
+         rhs_values[i] = h2;
 	 x_values[i] = 0.0;
          rows[i] = ilower + i;
       }
