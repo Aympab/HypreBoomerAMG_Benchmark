@@ -1,16 +1,15 @@
 # Fdb version 3
-["bibtex rapport"] 1642116429 "rapport.aux" "rapport.bbl" "rapport" 1642116429
+["bibtex rapport"] 1642189547 "rapport.aux" "rapport.bbl" "rapport" 1642189550
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/unsrt.bst" 1291864736 18030 1376b4b231b50c66211e47e42eda2875 ""
   "bibliography.bib" 0 -1 0 ""
-  "rapport.aux" 1642116410 2074 b61d469e34a58bc196ad4068c7d0cd54 "pdflatex"
+  "rapport.aux" 1642189549 2210 ba6aecd2bba9150a3bb180aeaa65c8a1 "pdflatex"
   (generated)
   "rapport.bbl"
   "rapport.blg"
-["pdflatex"] 1642116408 "c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex" "rapport.pdf" "rapport" 1642116429
+["pdflatex"] 1642189547 "c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex" "rapport.pdf" "rapport" 1642189550
   "C:/Users/aympa/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1638483982 9715384 93c75dee34a6d1b20cf78fc15ebd87de ""
   "C:/Users/aympa/AppData/Local/MiKTeX/pdftex/config/pdftex.map" 1641830341 279641 6abc4a04a43ace2bbb05492e51790a4f ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1001771820 2971 def0b6c1f0b107b3b936def894055589 ""
-  "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1001771820 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/tfm/bitstrea/charter/bchb7t.tfm" 1136768654 2732 006d846b4d54f9b40899c7c3eecd771a ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecbx1000.tfm" 993058356 3200 328792ff19833a39406f06fa0555a6dc ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecbx1440.tfm" 993058360 3196 0b37fa3083e15c57cfa8c4ff52f2807a ""
@@ -21,7 +20,6 @@
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecrm1728.tfm" 993058528 3168 11457c8185ce67fb79662ba8b03d6db1 ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecrm2074.tfm" 993058530 3184 b2541675eba9fa86d240ec0ecc913558 ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ectt1000.tfm" 993058740 1348 d70ddf2d5d512b838e50a335e385e919 ""
-  "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/tcbx1000.tfm" 993058878 1456 278016b1e421c8e979679e0372f68bf1 ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1233951848 1004 54797486969f23fa377b128694d548df ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1247593067 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1247593067 35752 024fb6c41858982481f6968b5fc26508 ""
@@ -176,15 +174,16 @@
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1623002060 55589 34128738f682d033422ca125f82e5d62 ""
   "C:/Users/aympa/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1623002090 4902 efb3d66683a2da2a232f71e3a571a899 ""
-  "c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex" 1642113268 10750 32938351f608666228fc771998b5883a ""
+  "c:/Users/aympa/source/repos/git_sophia/HypreBoomerAMG_Benchmark/rapport/rapport.tex" 1642189546 11853 1694e12e4fd11dc26935f84eb9513d1b ""
   "fig/Emilia923.png" 1642082479 11892 73d45bedcc20d73626aeaae2a0b3d879 ""
   "fig/Logo_Mines_ParisTech.svg.png" 1642106553 152283 e125facfd7e4f99a2f301496f0ae356b ""
+  "fig/dist_profiling.png" 1642188478 44179 387d48d9bc97a53c41416c3f84237b8a ""
   "fig/strong_scalab.png" 1642116407 64901 88f59a8c405020bacf7b0e5d2df7a682 ""
   "fig/weak_scalab.png" 1642113074 61864 71e07d90af27ec4035b0253bb21c17ba ""
-  "rapport.aux" 1642116410 2074 b61d469e34a58bc196ad4068c7d0cd54 "pdflatex"
+  "rapport.aux" 1642189549 2210 ba6aecd2bba9150a3bb180aeaa65c8a1 "pdflatex"
   "rapport.bbl" 0 -1 0 "bibtex rapport"
-  "rapport.out" 1642116410 1136 c10268f18e9af027f7257a3a87614b85 "pdflatex"
-  "rapport.tex" 1642113268 10750 32938351f608666228fc771998b5883a ""
+  "rapport.out" 1642189549 1136 c10268f18e9af027f7257a3a87614b85 "pdflatex"
+  "rapport.tex" 1642189546 11853 1694e12e4fd11dc26935f84eb9513d1b ""
   (generated)
   "rapport.aux"
   "rapport.log"

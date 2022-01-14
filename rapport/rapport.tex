@@ -49,30 +49,30 @@ inclus dans la librairie
 \href{https://hypre.readthedocs.io/en/latest/index.html}{HYPRE}.
 
 L'objectif du projet est double : il s'agit d'abord d'appliquer les méthodes de
-résolution multigrilles algébriques de BoomerAMG sur des
+résolutions multigrilles algébriques de BoomerAMG sur des
 \href{https://sparse.tamu.edu/}{matrices de problématiques réelles} au format
 \code{.mtx} (Matrix Market).
-Le deuxième objectif du projet est la réalisation de deux études
+Le deuxième objectif du projet est la réalisation d'études
 d'extensibilités :
 \begin{description}
-    \item [\textbullet\space Forte :] Avec
+    \item [Forte :] Avec
 \href{https://sparse.tamu.edu/Janna/Emilia_923}{un problème de taille fiche}
-au format Matrix Market, nous augmentons le nombre de processus MPI/CPU.
-    \item [\textbullet\space Faible :] En partant de $1$ processus MPI et
-d'un problème de taille $256 \times 256$, nous doublons la taille du problème
+au format Matrix Market, nous augmentons le nombre de processus MPI.
+    \item [Faible :] En partant de $1$ processus MPI et
+d'un problème de taille $n \times n$, nous doublons la taille du problème
 \textbf{et} le nombre de CPU qui travaillent sur le problème.
 \end{description}
 
 Nous mesurons dans les deux cas les temps d'exécutions de la résolution d'un
 système de la forme $Au = f$, avec $A$ la matrice de départ (i.e l'observation),
 $f$ la solution vers laquelle on veut converger (i.e le résultat) et $u$
-le système que l'on cherche a trouver.
+le système que l'on cherche à trouver.
 
 En plus de ces outils, ce projet apporte une vision générale sur les
 méthodologies de développement sur des clusters de calculs comme celui du CEMEF. 
 Nous avons pu approfondir les concepts tels que la réservation des coeurs de
 calcul, le partage de ressources ou encore les scripts automatisés,
-ici avec \code{OAR}.
+ici avec le scheduler \code{OAR}.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,15 +82,15 @@ ici avec \code{OAR}.
 Le code est disponible sur
 \href{https://github.com/Aympab/HypreBoomerAMG_Benchmark}{ce repo GitHub}.
 Vous pourrez aussi trouver le code et une archive dans nos repertoires
-personnels sur le CEMEF. Le code est déjà compilé sur le cluster.
+personnels sur le CEMEF. Le programme est déjà compilé sur le cluster.
 
 Nous avons ajouté l'option \code{-file} à l'exécution qui permet de préciser
 un chemin d'accès relatif vers un fichier au format .mtx. Le code fonctionne
-pour des \textbf{matrices carrées} uniquement. Attention, avec les options par 
+pour des \textbf{matrices carrées} uniquement. De plus, avec les options par 
 défaut (e.g \code{-gamma}, le cycle AMG utilisé, V par défaut), seulement les
 matrices symétriques définies positives permettent de converger vers une
 solution. Nous avons téléchargé quelques matrices de ce type dans le répertoire
-\code{matrices}, à la racinne du projet.
+\code{matrices}, à la racine du projet.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -101,7 +101,7 @@ Pour le benchmarking, nous avons utilisé un script shell qui formate les donné
 des logs OAR en fichiers csv.
 Ensuite, à l'aide de python et surtout de la librairie \code{pandas}, nous avons
 traité les données pour les visualiser ici.
-Les données brutes sont disponibles dans le répertoire \code{logs/} du projet.
+Les données brutes sont disponibles dans le répertoire \code{log/} du projet.
 
 Pour ce qui est de la lecture de fichier \code{.mtx} et le découpage sur les
 différents coeurs de calculs, nous avons utilisé la librairie
@@ -109,11 +109,12 @@ différents coeurs de calculs, nous avons utilisé la librairie
 La difficulté était premièrement de s'approprier la librairie, notamment les
 méthodes pour accéder aux données brutes (i.e. \code{raw buffers}), dans le but
 de les envoyer à l'autre librairie, HYPRE. L'interfaçage entre les deux
-librairies a été pour nous la difficulté de ce projet (et donc l'axe
+librairies ainsi que le découpage de la matrice pour les différents processus
+MPI ont été pour nous des difficultés notables de ce projet (et donc des axes
 d'amélioration).
 
 Nous avons essayé de réutiliser au maximum le code qui était déjà développé par
-le professeur, vous trouverez le code commenté dans le fichier \code{tp.cpp}
+le professeur, vous trouverez le code commenté dans le fichier \code{tp.cpp}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -123,8 +124,8 @@ le professeur, vous trouverez le code commenté dans le fichier \code{tp.cpp}
 
 Dans cette partie, nous avons utilisé la matrice
 \href{https://sparse.tamu.edu/Janna/Emilia_923}{Emilia923}, qui est issue d'un
-problème de géomécanique. C'est une matrice symétrique définie positive avec 
-$4\times 10^6$ nnz., et $923136$ lignes et colonnes.
+problème de géomécanique. C'est une matrice symétrique définie positive avec
+environ $4\times 10^6$ nnz., et $923136$ lignes et colonnes.
 
 \begin{figure}[H]
   \centering
@@ -148,8 +149,9 @@ Voici les résultats de ces exécutions :
 Une première chose assez flagrante que l'on peut remarquer ici est que dès que
 l'on sort du même noeud de calcul, et que les communications MPI se font entre 
 différents noeuds, le temps de calcul augmente.
-Notez bien que nous avons pris soin de
-réserver trois noeuds qui se trouvent côte a côte sur le cluster !
+De plus, on peut voir une perte de performance notable lorsqu'on passe de 1 à 2
+processus MPI. Cette étude a été réalisée avec les paramètres par défaut du
+solveur.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -177,37 +179,47 @@ noeuds sur le CEMEF}
 Nous avons mis un certain temps avant de réaliser que certains de nos calculs
 devenaient longs à cause de la séparation des CPUs sur plusieurs nodes. En effet
 , en augmentant d'un le nombre de processus MPI, les calculs devenaient parfois
-100x plus lents. En investiguant de plus près, nous nous sommes rendu compte que
-non seulement être sur plusieurs nodes est coûteux en temps communication,
-mais aussi que plus la distance physique entre ces noeuds de calcul est grande,
-plus le temps de calcul semble multiplié.
+100x plus lents. 
 
-Pour en avoir le coeur net, nous avons décidé de réaliser une dernière étude. Il
-s'agit du temps de calcul pour un problème de taille fixe et pour 2 processus
-MPI. L'idée est d'avoir deux CPU qui sont bien sur deux noeuds différents, et de
-faire varier la distance entre ces noeuds (i.e. de choisir des noeuds plus
-éloignés physiquement sur le cluster à chaque itération). Voici les résultats
-que nous avons obtenus :
+Nous avons d'abord pensé que la distance physique qui sépare les nodes dans
+les quels se trouvent les différents CPU utilisés par MPI impactait les
+performances. Pour en avoir le coeur net, nous avons décidé de réaliser l'étude.
+suivante : 
+Il s'agit du temps de calcul pour un problème de taille fixe et pour \textbf{2}
+processus MPI. L'idée est d'avoir deux CPUs qui sont bien sur deux noeuds
+différents, et de faire varier la distance entre ces noeuds
+(i.e. de choisir des noeuds plus éloignés physiquement sur le cluster à chaque
+itération). Voici les résultats que nous avons obtenus :
 
-% \begin{figure}[H]
-%     \centering
-%     \caption{Étude d'extensibilité forte}
-%     \includegraphics[width=0.50\textwidth]{fig/strong_scalab.png}
-%   \end{figure}
+\begin{figure}[H]
+    \centering
+    \caption{Distance entre les noeuds}
+    \includegraphics[width=0.50\textwidth]{fig/dist_profiling.png}
+  \end{figure}
 
-Nous pouvons imaginer que dans un problème réel, pour couvrir le coût de ces
-communications, il faudrait que le temps de calcul sur chaque processeur
-soit plus important que ce temps de communication. De tout évidence, ce n'est
-pas le cas pour notre problème.
+Comme nous pouvons le constater, notre hypothèse était fausse. La distance
+physique qui sépare deux nodes n'impacte pas de manière significative les
+performances. Cependant, nous pouvons voir que les performances sont
+grandement affectées par le fait de sortir du même noeud de calcul.
+Notre hypothèse est la suivante : comme les processus travaillent sur une
+même mémoire RAM physique (au niveau hardware), malgré le fait que nous
+utilisons de la programmation en mémoire distribuée, les communications MPI
+sont largement optimisées. Entre autres, nous n'avons pas besoin d'accéder
+au réseau. En conclusion, si notre problème peut rentrer dans la mémoire RAM
+d'un seul noeud, il vaut mieux favoriser l'utilisation de tous les coeurs de
+ce noeud plutôt que d'ajouter des coeurs de calculs qui seraient sur des noeuds
+différents. Bien sûr, pour être sûr de cela, il faudrait faire une étude plus
+approfondie, notamment en mesurant le temps des communications par rapport au
+temps de calcul.
 
 \section*{Conclusions}
 
 Les courbes que nous obtenons avec les profilings d'extensibilité forte et
-faible correspondent à ce que nous avions vu en cours, il n'y a donc pas
-particulièrement de surpise à ce niveau là. Cependant, l'étude "approfondie"
+faible correspondent à ce que nous avions vu en cours.
+L'étude "approfondie"
 que nous avons mené nous a permis de découvrir de nouveaux aspects de la
-programmation haute performance. Entre autres, nous avons réalisé que la
-distance physique qui sépare les nodes est un facteur majeur sur la performance.
+programmation haute performance. Entre autres, nous avons pu clairement
+ressentir l'impact des communications réseaux sur les performances.
 Une fois les outils et les concepts (un peu) appropriés, nous nous sommes aussi
 rendus compte du confort qu'apporte l'utilisation
 d'une librairie telle que HYPRE,
@@ -216,19 +228,24 @@ d'abstraction qui rend la programmation assez agréable et rassurante, tout en
 nous permettant de garder un contrôle sur la performance
 car nous restons dans un langage bas niveau avec le C/C++.
 
-\section*{Axes d'amélioration}
-- Split par value et pas par row car on est en CSR
+\section*{Pistes d'amélioration}
 
-- eviter le loading de la matrice pour tous les CPU pour voir la
-différence entre le coup de la communication, ou alors le chargement dans 
-toutes les RAM (qui est la solution naive)
+\begin{itemize}
+  \item Réaliser un découpage des matrices CSR par valeurs et non
+par lignes, afin d'être sûr d'avoir une charge de calcul équilibrée entre les
+processeurs. De plus, rendre le code plus générique en permettant de résoudre
+des sytèmes qui ne sont pas des matrices carrées.
+  \item Donner la possibilité d'importer le vecteur solution en
+entrée du programme, comme pour la matrice de départ.
+  \item Étude plus approfondie sur le coût des communications MPI.
+  \item HYPRE donne la possibilité d'être utilisé sur GPU. Pour
+cela, il faut compiler la librairie avec nvcc. Il aurait été intéressant de
+comparer les performances entre une version CPU et une version GPU. Malgré nos
+efforts, les versions de CUDA qui font tourner HYPRE sont très anciennes (9.2)
+et ne tournent que sur des "vieux" systèmes d'exploitations (e.g. Ubuntu 16.04).
+Ces versions n'étaient pas disponibles sur les machines que nous avons à
+disposition à l'école.
+\end{itemize}
 
-- Donner la possibilité d'importer le vecteur solution depuis un fichier
-
-- Compiler Hypre avec GPU pour faire des comparaisons (essayé sur l'ordi mais 
-pas maintenu pour les nouvelles versions de CUDA, donc il faut une version de
-linux datant de 2012 environ, donc c'est l'enfer pour trouver les drivers de NVIDIA
-qui bougent chaque année presque)
--
 \bibliography{bibliography}
 \end{document}

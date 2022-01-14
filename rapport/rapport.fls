@@ -929,7 +929,6 @@ INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\tex\latex\base\t1cmtt.fd
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\tex\latex\base\t1cmtt.fd
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt1000.tfm
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbx1000.tfm
-INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\tcbx1000.tfm
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
 INPUT C:\Users\aympa\AppData\Local\MiKTeX\pdftex\config\pdftex.map
@@ -954,6 +953,13 @@ INPUT .\fig\weak_scalab.png
 INPUT .\fig\weak_scalab.png
 INPUT .\fig\weak_scalab.png
 INPUT .\fig\weak_scalab.png
+INPUT .\fig\dist_profiling.png
+INPUT .\fig\dist_profiling.png
+INPUT fig\dist_profiling.png
+INPUT .\fig\dist_profiling.png
+INPUT .\fig\dist_profiling.png
+INPUT .\fig\dist_profiling.png
+INPUT .\fig\dist_profiling.png
 INPUT .\fig\Logo_Mines_ParisTech.svg.png
 INPUT .\fig\Logo_Mines_ParisTech.svg.png
 INPUT fig\Logo_Mines_ParisTech.svg.png
@@ -969,7 +975,6 @@ INPUT rapport.aux
 INPUT .\rapport.out
 INPUT .\rapport.out
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\cm-super\cm-super-t1.enc
-INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\cm-super\cm-super-ts1.enc
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi10.pfb
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi10.pfb
 INPUT C:\Users\aympa\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr10.pfb
