@@ -361,6 +361,7 @@ int main (int argc, char *argv[])
 
        int my_rows[local_size + 1];
 
+       int local_values_size;
        //Send and receive rows ptr
        if(myid == 0){
            double* values = my_matrix.valuePtr();
@@ -390,18 +391,42 @@ int main (int argc, char *argv[])
             for(int i = 0; i < num_procs; i++){
 
                 int start = row_displacements[i];
-                int stop  = start + row_counts[i];
+                int stop  = start + row_counts[i] - 1;
 
-                int low = rows[start];
-                int up = rows[stop];
+                int local_nnz = rows[stop] - rows[start];
 
-                v_counts[i] = up-low;
+                v_counts[i] = local_nnz;
 
-                if(i>0)
+                if(i>0){
                     v_displacements[i] = sum_count;
 
-                sum_count += v_counts[i];
+                    //Sending local values size to the bros so they can allocate
+                    MPI_Send(&local_nnz,
+                         1,
+                         MPI_INT,
+                         i,
+                         666,
+                         MPI_COMM_WORLD);
+                }
+
+                 sum_count += v_counts[i];
             }
+
+            /*settings size of values for root node so it can allocate
+             with the other */
+            local_values_size = v_counts[0];
+
+            // MPI_Scatterv(
+            //      rows,
+            //      row_counts,
+            //      row_displacements,
+            //      MPI_INT,
+            //      &my_rows,
+            //      local_size+1,
+            //      MPI_INT,        //Datatype receive
+            //      0,              //root MPI ID
+            //      MPI_COMM_WORLD);
+
 
        }
        else{
@@ -418,7 +443,19 @@ int main (int argc, char *argv[])
                 MPI_COMM_WORLD);
 
 
+           MPI_Recv(&local_values_size,
+                    1,
+                    MPI_INT,
+                    0,
+                    666,
+                    MPI_COMM_WORLD,
+                    MPI_STATUS_IGNORE);
+
        }
+
+       if(myid==0)
+        std::cout << my_matrix << std::endl;
+
        std::cout << "\nP#" << myid <<" Rows : [";
        for(int i = 0; i < local_size+1; ++i){
            std::cout << my_rows[i];
@@ -426,9 +463,13 @@ int main (int argc, char *argv[])
                std::cout << ", ";
            }
            else{
-               std::cout << "]\n" << std::endl;
+               std::cout << "] My local number of values is :" << local_values_size;
+               std::cout << "\n" << std::endl;
            }
        }
+
+       MPI_Finalize();
+       return 0;
        //
        //
        // std::vector<int> my_rows{rows+ilower, rows + ilower + local_size + 1};
