@@ -6,3 +6,9 @@ tp
 IJ.out.*
 *.mtx
 make.log
+rapport/rapport.aux
+rapport/rapport.fls
+rapport/rapport.fdb_latexmk
+rapport/rapport.synctex.gz
+rapport/rapport.out
+rapport/rapport.log
