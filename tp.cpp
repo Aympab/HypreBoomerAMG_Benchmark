@@ -53,7 +53,7 @@ int main (int argc, char *argv[])
    int interp_type = 0;
    int coarsen_type = 6;
    int agg_levels  = 0;
-   int vis, print_system;
+   int vis, print_system, quiet;
    double strong_threshold = 0.25;
    double tolerance = 1.e-8;
 
@@ -78,14 +78,11 @@ int main (int argc, char *argv[])
    MPI_Comm_rank(MPI_COMM_WORLD, &myid);
    MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
 
-   //printf("C > Hello, I am proc number %d/%d\n", myid+1, num_procs);
-   //std::cout << "CXX > Hello, I am proc number " << myid+1 << "/" << num_procs << std::endl;
-   int debug = 0;
-
    /* Default problem parameters */
    n = 33;
    vis = 0;
    print_system = 0;
+   quiet = 0;
 
    /* Parse command line */
    {
@@ -131,15 +128,15 @@ int main (int argc, char *argv[])
             arg_index++;
             vis = 1;
          }
-         else if ( strcmp(argv[arg_index], "-debug") == 0 )
-         {
-            arg_index++;
-            debug = 1;
-         }
          else if ( strcmp(argv[arg_index], "-print_system") == 0 )
          {
             arg_index++;
             print_system = 1;
+         }
+         else if ( strcmp(argv[arg_index], "-quiet") == 0 )
+         {
+            arg_index++;
+            quiet = 1;
          }
          else if ( strcmp(argv[arg_index], "-file") == 0 ){
              arg_index++; filename = argv[arg_index++];
@@ -173,7 +170,7 @@ int main (int argc, char *argv[])
          printf("  -tolerance <f>        : Convergence threshold (default: 1.e-8)\n");
          printf("  -vis                  : save the solution for GLVis visualization\n");
          printf("  -print_system         : print the matrix and rhs\n");
-         printf("  -debug                : Console debug displays (0,1)\n");
+         printf("  -quiet                : Shuts Boomer AMG parameters (default:0)\n");
          printf("\n");
       }
 
@@ -184,7 +181,6 @@ int main (int argc, char *argv[])
       }
 
       //Loading matrix from .mtx file
-      //if(myid == 0 && filename != nullptr){
        if(filename != nullptr){
            if(myid==0){
                std::cout << "Loading Matrix from " << filename << "...\n";
@@ -192,19 +188,15 @@ int main (int argc, char *argv[])
 
                n = my_matrix.rows();
                if(n == 0){
-                   std::cout << "File doesn't exist or is corrupted" << std::endl;
-                   return -1;
+                 std::cout << "File doesn't exist or is corrupted" << std::endl;
+                 return -1;
                }
 
                std::cout << "Matrix loaded !" << std::endl;
            }
 
             //Sending size of matrix to everyone
-            MPI_Bcast(&n,
-            1,
-            MPI_INT,
-            0,
-            MPI_COMM_WORLD);
+            MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
      }
    }
 
@@ -239,10 +231,8 @@ int main (int argc, char *argv[])
 
 
    //Settings arrays to use to split matrix with MPI
-   // int* row_counts = (int*)malloc(sizeof(int)*num_procs);
    int row_counts[num_procs];
    int row_displacements[num_procs];
-   // int* row_displacements = (int*)malloc(sizeof(int)*num_procs);
 
    row_displacements[0] = 0;
    //Filling the counts and offset arrays for MPI_ScatterV
@@ -273,11 +263,6 @@ int main (int argc, char *argv[])
            if(p > 0) row_displacements[p] = sum_count;
            sum_count += row_counts[p]-1;
        }
-
-       printf("counts  /  displ\n");
-       for(int i =0; i<num_procs; i++){
-           printf("%d  /  %d\n", row_counts[i], row_displacements[i]);
-       }
    }
 
    /* Create the matrix.
@@ -285,11 +270,6 @@ int main (int argc, char *argv[])
       size twice (since number of rows = number of cols) */
     HYPRE_IJMatrixCreate(MPI_COMM_WORLD, ilower, iupper, ilower, iupper, &A);
 
-/*   else{
-       printf(" > Creating with %d, %d, %d, %d\n", ilower, iupper, 0, my_matrix.cols());
-       HYPRE_IJMatrixCreate(MPI_COMM_WORLD, ilower, iupper, 0, my_matrix.cols(), &A);
-   }
-*/
    /* Choose a parallel csr format storage (see the User's Manual) */
    HYPRE_IJMatrixSetObjectType(A, HYPRE_PARCSR);
 
@@ -369,8 +349,6 @@ int main (int argc, char *argv[])
 
        //Send and receive rows ptr
        if(myid == 0){
-           double* values = my_matrix.valuePtr();
-           int* cols = my_matrix.innerIndexPtr();
            int* rows = my_matrix.outerIndexPtr();
 
            MPI_Scatterv(
@@ -385,11 +363,16 @@ int main (int argc, char *argv[])
                 MPI_COMM_WORLD);
 
 
-
+            //Displacement for root node is 0
             v_displacements[0] = 0;
 
+            /*
+            Here we are going to compute how many values will each proc have
+            by using the values stored in rows[] for each proc (we use counts
+            and displacement that we used MPI).
+            We store this in another counts displacement for CSR values
+            */
             int sum_count = 0;
-
             for(int i = 0; i < num_procs; i++){
 
                 int start = row_displacements[i];
@@ -402,7 +385,9 @@ int main (int argc, char *argv[])
                 if(i>0){
                     v_displacements[i] = sum_count;
 
-                    //Sending local values size to the bros so they can allocate
+                    /*Sending local values size to the bros so they can allocate
+                    we do this while computing the counts
+                    */
                     MPI_Send(&local_nnz,
                          1,
                          MPI_INT,
@@ -420,10 +405,8 @@ int main (int argc, char *argv[])
 
        }
        else{
-           MPI_Scatterv(
-                NULL,
-                NULL,
-                NULL,
+           //Receiving local rows
+           MPI_Scatterv(NULL, NULL, NULL,
                 MPI_INT,
                 &my_rows,
                 local_size+1,
@@ -431,26 +414,17 @@ int main (int argc, char *argv[])
                 0,              //root MPI ID
                 MPI_COMM_WORLD);
 
-           MPI_Recv(&local_values_size,
-                    1,
-                    MPI_INT,
-                    0,
-                    666,
+           //Receiving size of our arrays of values and cols
+           MPI_Recv(&local_values_size, 1, MPI_INT, 0, 666,
                     MPI_COMM_WORLD,
                     MPI_STATUS_IGNORE);
        }
 
-       int index_low  = my_rows[0];
-       int index_high = my_rows[local_size] - 1;
-
+       //Initialize local values and cols now that we have the sizes
        int my_cols[local_values_size];
        double my_values[local_values_size];
 
-
        if(myid==0){
-           // double* values = my_matrix.valuePtr();
-           // int* cols = my_matrix.innerIndexPtr();
-
            //Send local values
             MPI_Scatterv(my_matrix.valuePtr(),
                  v_counts,
@@ -475,25 +449,12 @@ int main (int argc, char *argv[])
        }
        else{
            //Receive local values
-            MPI_Scatterv(NULL,
-                NULL,
-                NULL,
-                MPI_DOUBLE,
-                my_values,
-                local_values_size,
-                MPI_DOUBLE,
-                0,
-                MPI_COMM_WORLD);
+            MPI_Scatterv(NULL, NULL, NULL, MPI_DOUBLE,
+               my_values, local_values_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-            MPI_Scatterv(NULL,
-                NULL,
-                NULL,
-                MPI_INT,
-                my_cols,
-                local_values_size,
-                MPI_INT,
-                0,
-                MPI_COMM_WORLD);
+            //Receive local cols
+            MPI_Scatterv(NULL, NULL, NULL,
+               MPI_INT, my_cols, local_values_size, MPI_INT, 0, MPI_COMM_WORLD);
        }
 
        /* We are iterating over the local rows ptr for each processes
@@ -501,61 +462,22 @@ int main (int argc, char *argv[])
        then we take the values from startindex + i to startindex + i + row_nnz
        and feed this to HYPRE_IJMatrixSetValues
        */
-       for(size_t i = 0; i < local_size; ++i){
+       for(int i = 0; i < local_size; ++i){
            int numrow = ilower + i;
 
            int startidx = my_rows[i] - my_rows[0];
            int stopidx = my_rows[i+1] - my_rows[0] - 1;
            int row_nnz = stopidx - startidx + 1;
 
-           std::vector<double> row_values{my_values + startidx, my_values + startidx + row_nnz};
-           //row_values.assign(my_values.data() + startidx, my_values.data() + startidx + row_nnz);
+           double* row_values = my_values + startidx;
+           int* row_cols = my_cols + startidx;
 
-           std::vector<int> row_cols{my_cols + startidx, my_cols + startidx + row_nnz};
-           //row_cols.assign(my_cols.data() + startidx, my_cols.data() + startidx + row_nnz);
-
-           HYPRE_IJMatrixSetValues(A, 1, &row_nnz, &numrow, row_cols.data(), row_values.data());
+           HYPRE_IJMatrixSetValues(A, 1, &row_nnz, &numrow, row_cols, row_values);
        }
-
-
-
-       // if(myid==0)
-       //  std::cout << my_matrix << std::endl;
-       //
-       // std::cout << "\nP#" << myid <<" Rows : [";
-       // for(int i = 0; i < local_size+1; ++i){
-       //     std::cout << my_rows[i];
-       //     if(i < local_size){
-       //         std::cout << ", ";
-       //     }
-       //     else{
-       //         std::cout << "] My local number of values is :" << local_values_size;
-       //         std::cout << "\n" << std::endl;
-       //     }
-       // }
-       //
-       //
-
-
-
    }
 
    /* Assemble after setting the coefficients */
    HYPRE_IJMatrixAssemble(A);
-
-   /* Note: for the testing of small problems, one may wish to read
-      in a matrix in IJ format (for the format, see the output files
-      from the -print_system option).
-      In this case, one would use the following routine:
-      HYPRE_IJMatrixRead( <filename>, MPI_COMM_WORLD,
-                          HYPRE_PARCSR, &A );
-      <filename>  = IJ.A.out to read in what has been printed out
-      by -print_system (processor numbers are omitted).
-      A call to HYPRE_IJMatrixRead is an *alternative* to the
-      following sequence of HYPRE_IJMatrix calls:
-      Create, SetObjectType, Initialize, SetValues, and Assemble
-   */
-
 
    /* Get the parcsr matrix object to use */
    HYPRE_IJMatrixGetObject(A, (void**) &parcsr_A);
@@ -596,13 +518,7 @@ int main (int argc, char *argv[])
 
 
    HYPRE_IJVectorAssemble(b);
-   /*  As with the matrix, for testing purposes, one may wish to read in a rhs:
-       HYPRE_IJVectorRead( <filename>, MPI_COMM_WORLD,
-                                 HYPRE_PARCSR, &b );
-       as an alternative to the
-       following sequence of HYPRE_IJVectors calls:
-       Create, SetObjectType, Initialize, SetValues, and Assemble
-   */
+
    HYPRE_IJVectorGetObject(b, (void **) &par_b);
 
    HYPRE_IJVectorAssemble(x);
@@ -629,8 +545,12 @@ int main (int argc, char *argv[])
    HYPRE_BoomerAMGCreate(&solver);
 
    /* Set some parameters (See Reference Manual for more parameters) */
-   //HYPRE_BoomerAMGSetPrintLevel(solver, 3);  /* print solve info + parameters */
-   // HYPRE_BoomerAMGSetOldDefault(solver); /* Falgout coarsening with modified classical interpolaiton */
+   if(quiet == 0)
+   {
+       HYPRE_BoomerAMGSetPrintLevel(solver, 3);  /* print solve info + parameters */
+       HYPRE_BoomerAMGSetOldDefault(solver); /* Falgout coarsening with modified classical interpolaiton */
+   }
+
    HYPRE_BoomerAMGSetRelaxOrder(solver, 1);   /* uses C/F relaxation */
 
    // Customization
