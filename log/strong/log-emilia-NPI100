@@ -1,8 +1,0 @@
-Loading Matrix from /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/matrices/Emilia_923/Emilia_923.mtx...
-Matrix loaded !
-
-Problem size = 923136
-Iterations = 10
-Final Relative Residual Norm = 2.315381e-09
-
-That took 3.293391 seconds
