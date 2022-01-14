@@ -3,12 +3,12 @@
 ### script pour executer des jobs sur Cluster Cemef
 ### A mettre dans le repertoire root
 ### nombre de cores et duree max du job
-#OAR -l core=84,walltime=100:20:30
+#OAR -l core=84,walltime=10:00:00
 ##OAR -p nbcores=28
 
 ###On veut un seul node sinon les perfs sont detruites
 ###Astuce : on fait un oarinfo -f pour voir ou on a au moins 28 coeurs dispo
-#OAR -p host='n-in59' or host='n-in60' or host='n-in61'
+#OAR -p host='n-in51' or host='n-in52' or host='n-in53'
 
 ###Nom du job et output et error file
 #OAR -n boomerAMG
@@ -21,14 +21,15 @@
 
 ### indiquer votre executable
 MONPROG=/gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp
+MYOPTIONS="-coarsen_type 1 -gamma 2"
 
 echo DEBUT
 date
 
 MPIRUN="/softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun"
 
-array=( 1 2 4 8 16 28 32 56 64 )
-array2=( 256 512 1024 2048 4096 7168 8192 14336 16752)
+array=( 1 2 4 8 16 28 32 56 64 84 )
+array2=( 256 512 1024 2048 4096 7168 8192 14336 16752 21504)
 
 set -x
 export OMP_NUM_THREADS=1
@@ -38,7 +39,7 @@ if [ -f $MONPROG ] ; then
     np=${array[i]}
     nx=${array2[i]}
 
-    $MPIRUN -n $np $MONPROG -n $nx >> ./log/weak/np${np}_nx${nx}.logs
+    $MPIRUN -n $np $MONPROG -n $nx $MYOPTIONS > ./log/weak/np${np}_nx${nx}.logs
 
   done
 else
