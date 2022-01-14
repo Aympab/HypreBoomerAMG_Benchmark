@@ -1,0 +1,129 @@
+Loading Matrix from /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/matrices/Emilia_923/Emilia_923.mtx...
+Matrix loaded !
+
+
+ Num MPI tasks = 78
+
+ Num OpenMP threads = 1
+
+
+BoomerAMG SETUP PARAMETERS:
+
+ Max levels = 25
+ Num levels = 7
+
+ Strength Threshold = 0.250000
+ Interpolation Truncation Factor = 0.000000
+ Maximum Row Sum Threshold for Dependency Weakening = 0.900000
+
+ Coarsening Type = Ruge
+ measures are determined locally
+
+
+ No global partition option chosen.
+
+ Interpolation = modified classical interpolation
+
+Operator Matrix Information:
+
+             nonzero            entries/row          row sums
+lev    rows  entries sparse   min  max     avg      min         max
+======================================================================
+  0  923136 20964171  0.000     1   48    22.7  -4.633e+13   4.969e+14
+  1  236444  6267673  0.000     1  108    26.5  -4.108e+11   2.078e+15
+  2   65065  3267337  0.001     1  178    50.2  -2.686e+09   6.037e+13
+  3   21084  1230636  0.003     1  221    58.4   3.358e+08   2.455e+11
+  4    4845   224346  0.010     1  167    46.3   1.000e+07   1.021e+11
+  5     578    14446  0.043     1   75    25.0   1.000e+07   8.481e+10
+  6      22      172  0.355     1   13     7.8   1.000e+07   7.449e+10
+
+
+Interpolation Matrix Information:
+                      entries/row        min        max            row sums
+lev   rows x cols   min  max  avgW     weight      weight       min         max
+==================================================================================
+  0 923136 x 236444   0    4   0.5  -1.590e+01   4.869e+02  -1.590e+01   4.869e+02
+  1 236444 x 65065    0    4   0.6   5.557e-03   1.297e+00   0.000e+00   1.297e+00
+  2  65065 x 21084    0    4   0.8   7.843e-03   8.834e-01   0.000e+00   1.000e+00
+  3  21084 x 4845     0    4   0.4   7.463e-03   5.318e-01   0.000e+00   1.000e+00
+  4   4845 x 578      0    4   0.2   9.060e-03   4.869e-01   0.000e+00   1.000e+00
+  5    578 x 22       0    3   0.1   1.223e-02   3.656e-01   0.000e+00   1.000e+00
+
+
+     Complexity:    grid = 1.355352
+                operator = 1.524925
+                memory = 1.564347
+
+
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         20 
+  Stopping Tolerance:               1.000000e-08 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+            Number of sweeps:            1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         20 
+  Stopping Tolerance:               1.000000e-08 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+            Number of sweeps:            1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.127458e-09                 1.000000e+00
+    Cycle  1   2.701243e-10    0.239587     2.395869e-01 
+    Cycle  2   7.441310e-11    0.275477     6.600075e-02 
+    Cycle  3   2.080600e-11    0.279601     1.845389e-02 
+    Cycle  4   5.978909e-12    0.287365     5.302998e-03 
+    Cycle  5   1.624473e-12    0.271701     1.440828e-03 
+    Cycle  6   4.154463e-13    0.255742     3.684803e-04 
+    Cycle  7   1.068897e-13    0.257289     9.480591e-05 
+    Cycle  8   2.768095e-14    0.258967     2.455164e-05 
+    Cycle  9   7.183007e-15    0.259493     6.370973e-06 
+    Cycle 10   1.888718e-15    0.262943     1.675200e-06 
+    Cycle 11   5.040253e-16    0.266861     4.470456e-07 
+    Cycle 12   1.365141e-16    0.270848     1.210813e-07 
+    Cycle 13   3.756926e-17    0.275204     3.332208e-08 
+    Cycle 14   1.035386e-17    0.275594     9.183363e-09 
+
+
+ Average Convergence Factor = 0.266642
+
+     Complexity:    grid = 1.355352
+                operator = 1.524925
+                   cycle = 3.049841
+
+
+
+
+Problem size = 923136
+Iterations = 14
+Final Relative Residual Norm = 9.183363e-09
+
+That took 1.267998 seconds
