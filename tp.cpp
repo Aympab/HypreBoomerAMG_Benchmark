@@ -186,24 +186,19 @@ int main (int argc, char *argv[])
       //Loading matrix from .mtx file
       //if(myid == 0 && filename != nullptr){
        if(filename != nullptr){
-           
-	   if(myid == 0)
-	   	std::cout << "Loading Matrix from " << filename << "...\n";
-           
+
+
+	   std::cout << "Loading Matrix from " << filename << "...\n";
+
 	   Eigen::loadMarket(my_matrix, filename);
 
            //my_matrix.makeCompressed();
            n = my_matrix.rows();
-	   if(n == 0){
-		
-	        if(myid == 0)
-			std::cout << "File doesn't exist or is corrupted" << std::endl;
-		
-		MPI_Finalize();
-		return -1;
-	   }
+    	   if(n == 0){
+                std::cout << "File doesn't exist or is corrupted" << std::endl;
+                return -1;
+    	   }
 
-	   if(myid==0)
            	std::cout << "Matrix loaded !" << std::endl;
        }
    }
@@ -236,6 +231,46 @@ int main (int argc, char *argv[])
 
    /* How many rows do I have? */
    local_size = iupper - ilower + 1;
+
+   int* counts = (int*)malloc(sizeof(int)*num_procs);
+   int* displacements = (int*)malloc(sizeof(int)*num_procs);
+
+   //counts[myid] = local_size;
+   displacements[0] = 0;
+   //Filling the counts and offset arrays for MPI_ScatterV
+   if(myid == 0)
+   {
+
+       int plocal_size = N/num_procs;
+       int pextra = N - plocal_size*num_procs;
+
+       int plower;
+       int pupper;
+       int sum_count = 0;
+
+       for(int p = 0; p < num_procs; p++){
+           plower=0;
+           pupper=0;
+
+           plower = plocal_size*p;
+           plower += hypre_min(p, pextra);
+
+           pupper = plocal_size*(p+1);
+           pupper += hypre_min(p+1, pextra);
+           pupper = pupper - 1;
+
+           counts[p] = pupper - plower + 1;
+
+           if(p > 0) displacements[p] = sum_count;
+           sum_count += counts[p];
+       }
+
+       printf("counts  /  displ\n");
+       for(int i =0; i<num_procs; i++){
+           printf("%d  /  %d\n", counts[i], displacements[i]);
+       }
+   }
+   return 0;
 
    /* Create the matrix.
       Note that this is a square matrix, so we indicate the row partition
@@ -318,6 +353,30 @@ int main (int argc, char *argv[])
        double* values = my_matrix.valuePtr();
        int* cols = my_matrix.innerIndexPtr();
        int* rows = my_matrix.outerIndexPtr();
+       //
+       // for(int num_p = 0; num_p < num_procs; ++num_p){
+       //     size_t low_p = ilowers[num_p]
+       //
+       //
+       //
+       //
+       //
+       //
+       //     MPI_Scatterv(buffer,
+       //                  counts,
+       //                  displacements,
+       //                  MPI_INT,
+       //                  &my_value,
+       //                  1,
+       //                  MPI_INT,        //Datatype receive
+       //                  0,              //root MPI ID
+       //                  MPI_COMM_WORLD);
+       //
+       // }
+       //
+
+
+       //Sendig values
 
        std::vector<int> my_rows{rows+ilower, rows + ilower + local_size + 1};
        //my_rows.assign(rows+ilower, rows + ilower + local_size + 1);
@@ -517,7 +576,7 @@ int main (int argc, char *argv[])
    HYPRE_BoomerAMGCreate(&solver);
 
    /* Set some parameters (See Reference Manual for more parameters) */
-   HYPRE_BoomerAMGSetPrintLevel(solver, 3);  /* print solve info + parameters */
+   //HYPRE_BoomerAMGSetPrintLevel(solver, 3);  /* print solve info + parameters */
    // HYPRE_BoomerAMGSetOldDefault(solver); /* Falgout coarsening with modified classical interpolaiton */
    HYPRE_BoomerAMGSetRelaxOrder(solver, 1);   /* uses C/F relaxation */
 
