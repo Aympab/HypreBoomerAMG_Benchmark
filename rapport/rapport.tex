@@ -160,7 +160,11 @@ réserver trois noeuds qui se trouvent côte a côte sur le cluster.
 %% ETUDE
 \section{Étude d'extensibilité faible}
 
-Cette partie est une réalisation du sujet de TP3.
+Voici ci-après une étude d'extensibilité faible du programme. Une fois de plus,
+les paramètres utilisés ici sont ceux par defauts : Cycle V, coarsening CLJP,
+interpolation classique, un seul balayage par niveau, pas de coarsening aggresif
+. Vous trouverez toutes les informations sur les paramètres par défaut dans le
+code, et plus en détail sur le manuel de référence HYPRE.
 
 \begin{figure}[H]
     \centering
@@ -168,15 +172,71 @@ Cette partie est une réalisation du sujet de TP3.
     \includegraphics[width=0.45\textwidth]{fig/weak_scalab.png}
   \end{figure}
 
-
 Une fois de plus, nous pouvons constater qu'il y a une divergence lorsque l'on
-sort d'un seul et même noeud de calcul.
+sort d'un seul et même noeud de calcul. Nous étudierons brièvement plus tard
+ce phénomène. 
+D'abord, nous allons jouer sur les paramètres de résolution du problème.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ETUDE PARAMETRES
+\section{Changement des paramètres de base}
+
+De nombreux paramètres sont disponibles dans la librairie BoomerAMG. Entre
+autres, nous pouvons choisir la méthode de coarsening et d'interpolation.
+Nous avons essayé d'utiliser des méthodes qui admettent possiblement une plus
+grande marge d'erreur, mais qui sont tournées vers la performance.
+Voici quelques temps d'exécutions en fonction de différents paramètres. Les
+benchmarks de cette parties ont été réalisés sur $28$ coeurs en parallèle, tous
+sur un seul et même noeud. La taille du problème est fixé à $8096^2$.
+
+\begin{figure}[H]
+  \centering
+  \caption{Variation du Coarsen type}
+  \includegraphics[width=0.45\textwidth]{fig/strong_coarsen_type.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Variation du aggressive coarsing}
+    \includegraphics[width=0.45\textwidth]{fig/strong_agg_level.png}
+  \end{figure}
+
+  \begin{figure}[H]
+    \centering
+    \caption{Variation du smoother}
+    \includegraphics[width=0.45\textwidth]{fig/strong_smoother.png}
+  \end{figure}
+
+Il existe de nombreux autres paramètres qu'il faudrait étudier selon le profil
+de la matrice que nous essayons de résoudre. Mais avec ce que nous avons testé,
+et notre profil de matrice (symmétrique définie positive), nous allons garder
+les paramètres qui semblent minimiser le temps de calcul. En se basant sur les
+graphiques percédent, nous allons donc utiliser :
+
+\begin{description}
+  \item[Coarsening type] - Méthode utilisée pour réaliser le maillage grossier :
+\href{https://hypre.readthedocs.io/en/latest/ch-references.html#dfny2008}{PMIS}
+  \item[Aggresive coarsing] - Utilisé pour faire un maillage grossier de manière
+aggressive, ce qui peut réduire les allocations mémoire et la complexité. Ici, 
+nous allons réaliser un \textit{coarsing} aggressif sur 3 niveaux. 
+  \item[Relaxation type] - Le lisseur à utiliser pour la phase de prélissage :
+hybride Gauss-Seidel ou SOR, avec une résolution ascendante (\textit{forward
+solve}).
+\end{description}
+
+
+Voici une comparaison entre le temps d'exécution du solveur avec les  paramètres
+par défaut de HYPRE et les paramètres que nous avons choisis :
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ETUDE DISTANCE
-\section{Étude de l'impact de la distance physique entre deux
-noeuds sur le CEMEF}
+\section{Étude de l'impact de la distance entre deux noeuds sur le CEMEF}
 
 Nous avons mis un certain temps avant de réaliser que certains de nos calculs
 devenaient longs à cause de la séparation des CPUs sur plusieurs nodes. En effet
@@ -195,7 +255,7 @@ itération). Voici les résultats que nous avons obtenus :
 
 \begin{figure}[H]
     \centering
-    \caption{Distance entre les noeuds}
+    \caption{Impact de la distance entre les noeuds sur la performance}
     \includegraphics[width=0.50\textwidth]{fig/dist_profiling.png}
   \end{figure}
 
