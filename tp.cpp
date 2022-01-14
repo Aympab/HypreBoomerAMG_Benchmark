@@ -362,6 +362,11 @@ int main (int argc, char *argv[])
        int my_rows[local_size + 1];
 
        int local_values_size;
+
+       //Number of values for each proc, used in scatterV
+       int v_counts[num_procs];
+       int v_displacements[num_procs];
+
        //Send and receive rows ptr
        if(myid == 0){
            double* values = my_matrix.valuePtr();
@@ -380,9 +385,6 @@ int main (int argc, char *argv[])
                 MPI_COMM_WORLD);
 
 
-            //Number of values for each proc, used in scatterV
-            int v_counts[num_procs];
-            int v_displacements[num_procs];
 
             v_displacements[0] = 0;
 
@@ -416,21 +418,8 @@ int main (int argc, char *argv[])
              with the other */
             local_values_size = v_counts[0];
 
-            // MPI_Scatterv(
-            //      rows,
-            //      row_counts,
-            //      row_displacements,
-            //      MPI_INT,
-            //      &my_rows,
-            //      local_size+1,
-            //      MPI_INT,        //Datatype receive
-            //      0,              //root MPI ID
-            //      MPI_COMM_WORLD);
-
-
        }
        else{
-           printf("LOCALSIZE = %d", local_size);
            MPI_Scatterv(
                 NULL,
                 NULL,
@@ -442,7 +431,6 @@ int main (int argc, char *argv[])
                 0,              //root MPI ID
                 MPI_COMM_WORLD);
 
-
            MPI_Recv(&local_values_size,
                     1,
                     MPI_INT,
@@ -450,56 +438,104 @@ int main (int argc, char *argv[])
                     666,
                     MPI_COMM_WORLD,
                     MPI_STATUS_IGNORE);
-
        }
 
-       if(myid==0)
-        std::cout << my_matrix << std::endl;
+       int index_low  = my_rows[0];
+       int index_high = my_rows[local_size] - 1;
 
-       std::cout << "\nP#" << myid <<" Rows : [";
-       for(int i = 0; i < local_size+1; ++i){
-           std::cout << my_rows[i];
-           if(i < local_size){
-               std::cout << ", ";
-           }
-           else{
-               std::cout << "] My local number of values is :" << local_values_size;
-               std::cout << "\n" << std::endl;
-           }
+       int my_cols[local_values_size];
+       double my_values[local_values_size];
+
+
+       if(myid==0){
+           // double* values = my_matrix.valuePtr();
+           // int* cols = my_matrix.innerIndexPtr();
+
+           //Send local values
+            MPI_Scatterv(my_matrix.valuePtr(),
+                 v_counts,
+                 v_displacements,
+                 MPI_DOUBLE,
+                 my_values,
+                 local_values_size,
+                 MPI_DOUBLE,
+                 0,
+                 MPI_COMM_WORLD);
+
+             //Sending cols
+             MPI_Scatterv(my_matrix.innerIndexPtr(),
+                   v_counts,
+                   v_displacements,
+                   MPI_INT,
+                   my_cols,
+                   local_values_size,
+                   MPI_INT,
+                   0,
+                   MPI_COMM_WORLD);
+       }
+       else{
+           //Receive local values
+            MPI_Scatterv(NULL,
+                NULL,
+                NULL,
+                MPI_DOUBLE,
+                my_values,
+                local_values_size,
+                MPI_DOUBLE,
+                0,
+                MPI_COMM_WORLD);
+
+            MPI_Scatterv(NULL,
+                NULL,
+                NULL,
+                MPI_INT,
+                my_cols,
+                local_values_size,
+                MPI_INT,
+                0,
+                MPI_COMM_WORLD);
        }
 
-       MPI_Finalize();
-       return 0;
-       //
-       //
-       // std::vector<int> my_rows{rows+ilower, rows + ilower + local_size + 1};
-       // int index_low  = my_rows[0];
-       // int index_high = my_rows[my_rows.size() - 1] - 1;
-       //
-       // std::vector<int> my_cols{cols + index_low, cols + index_high + 1};
-       // std::vector<double> my_values{values + index_low, values + index_high + 1};
-       //
+       /* We are iterating over the local rows ptr for each processes
+       We take elements 2 by 2, compute the local number of nnz for this row,
+       then we take the values from startindex + i to startindex + i + row_nnz
+       and feed this to HYPRE_IJMatrixSetValues
+       */
+       for(size_t i = 0; i < local_size; ++i){
+           int numrow = ilower + i;
 
-       // /* We are iterating over the local rows ptr for each processes
-       // We take elements 2 by 2, compute the local number of nnz for this row,
-       // then we take the values from startindex + i to startindex + i + row_nnz
-       // and feed this to HYPRE_IJMatrixSetValues
-       // */
-       // for(size_t i = 0; i < my_rows.size()-1; ++i){
-       //     int numrow = ilower + i;
+           int startidx = my_rows[i] - my_rows[0];
+           int stopidx = my_rows[i+1] - my_rows[0] - 1;
+           int row_nnz = stopidx - startidx + 1;
+
+           std::vector<double> row_values{my_values + startidx, my_values + startidx + row_nnz};
+           //row_values.assign(my_values.data() + startidx, my_values.data() + startidx + row_nnz);
+
+           std::vector<int> row_cols{my_cols + startidx, my_cols + startidx + row_nnz};
+           //row_cols.assign(my_cols.data() + startidx, my_cols.data() + startidx + row_nnz);
+
+           HYPRE_IJMatrixSetValues(A, 1, &row_nnz, &numrow, row_cols.data(), row_values.data());
+       }
+
+
+
+       // if(myid==0)
+       //  std::cout << my_matrix << std::endl;
        //
-       //     int startidx = my_rows[i] - my_rows[0];
-       //     int stopidx = my_rows[i+1] - my_rows[0] - 1;
-       //     int row_nnz = stopidx - startidx + 1;
-       //
-       //     std::vector<double> row_values{my_values.data() + startidx, my_values.data() + startidx + row_nnz};
-       //     //row_values.assign(my_values.data() + startidx, my_values.data() + startidx + row_nnz);
-       //
-       //     std::vector<int> row_cols{my_cols.data() + startidx, my_cols.data() + startidx + row_nnz};
-       //     //row_cols.assign(my_cols.data() + startidx, my_cols.data() + startidx + row_nnz);
-       //
-       //     HYPRE_IJMatrixSetValues(A, 1, &row_nnz, &numrow, row_cols.data(), row_values.data());
+       // std::cout << "\nP#" << myid <<" Rows : [";
+       // for(int i = 0; i < local_size+1; ++i){
+       //     std::cout << my_rows[i];
+       //     if(i < local_size){
+       //         std::cout << ", ";
+       //     }
+       //     else{
+       //         std::cout << "] My local number of values is :" << local_values_size;
+       //         std::cout << "\n" << std::endl;
+       //     }
        // }
+       //
+       //
+
 
 
    }
