@@ -69,7 +69,7 @@ $f$ la solution vers laquelle on veut converger (i.e le résultat) et $u$
 le système que l'on cherche à trouver.
 
 En plus de ces outils, ce projet apporte une vision générale sur les
-méthodologies de développement sur des clusters de calculs comme celui du CEMEF. 
+méthodologies de développement sur des clusters de calculs comme celui du CEMEF.
 Nous avons pu approfondir les concepts tels que la réservation des coeurs de
 calcul, le partage de ressources ou encore les scripts automatisés,
 ici avec le scheduler \code{OAR}.
@@ -86,7 +86,7 @@ personnels sur le CEMEF. Le programme est déjà compilé sur le cluster.
 
 Nous avons ajouté l'option \code{-file} à l'exécution qui permet de préciser
 un chemin d'accès relatif vers un fichier au format .mtx. Le code fonctionne
-pour des \textbf{matrices carrées} uniquement. De plus, avec les options par 
+pour des \textbf{matrices carrées} uniquement. De plus, avec les options par
 défaut (e.g \code{-gamma}, le cycle AMG utilisé, V par défaut), seulement les
 matrices symétriques définies positives permettent de converger vers une
 solution. Nous avons téléchargé quelques matrices de ce type dans le répertoire
@@ -133,7 +133,7 @@ environ $4\times 10^6$ nnz., et $923136$ lignes et colonnes.
   \includegraphics[width=0.3\textwidth]{fig/Emilia923.png}
 \end{figure}
 
-En gardant ce même problème tout au long de l'étude, nous allons augmenter 
+En gardant ce même problème tout au long de l'étude, nous allons augmenter
 le nombre de processus MPI en parralèle. Nous montons jusqu'à $3 \times 28 = 84$
 processus car cela correspond à $3$ noeuds de calcul du cluster CEMEF complets.
 Nous avons délimité par la ligne horizontale rouge le nombre de coeurs pour un
@@ -147,11 +147,13 @@ Voici les résultats de ces exécutions :
   \end{figure}
 
 Une première chose assez flagrante que l'on peut remarquer ici est que dès que
-l'on sort du même noeud de calcul, et que les communications MPI se font entre 
+l'on sort du même noeud de calcul, et que les communications MPI se font entre
 différents noeuds, le temps de calcul augmente.
 De plus, on peut voir une perte de performance notable lorsqu'on passe de 1 à 2
 processus MPI. Cette étude a été réalisée avec les paramètres par défaut du
 solveur.
+Notons que nous avons pris soin de
+réserver trois noeuds qui se trouvent côte a côte sur le cluster.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -173,18 +175,18 @@ sort d'un seul et même noeud de calcul.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ETUDE DISTANCE
-\section{Étude de l'impact de la distance physique entre deux 
+\section{Étude de l'impact de la distance physique entre deux
 noeuds sur le CEMEF}
 
 Nous avons mis un certain temps avant de réaliser que certains de nos calculs
 devenaient longs à cause de la séparation des CPUs sur plusieurs nodes. En effet
 , en augmentant d'un le nombre de processus MPI, les calculs devenaient parfois
-100x plus lents. 
+100x plus lents.
 
 Nous avons d'abord pensé que la distance physique qui sépare les nodes dans
 les quels se trouvent les différents CPU utilisés par MPI impactait les
 performances. Pour en avoir le coeur net, nous avons décidé de réaliser l'étude.
-suivante : 
+suivante :
 Il s'agit du temps de calcul pour un problème de taille fixe et pour \textbf{2}
 processus MPI. L'idée est d'avoir deux CPUs qui sont bien sur deux noeuds
 différents, et de faire varier la distance entre ces noeuds

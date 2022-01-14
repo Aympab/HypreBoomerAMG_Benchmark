@@ -3,12 +3,13 @@
 ### script pour executer des jobs sur Cluster Cemef
 ### A mettre dans le repertoire root
 ### nombre de cores et duree max du job
-#OAR -l core=84,walltime=10:00:00
+#OAR -l core=28,walltime=10:00:00
 ##OAR -p nbcores=28
 
 ###On veut un seul node sinon les perfs sont detruites
 ###Astuce : on fait un oarinfo -f pour voir ou on a au moins 28 coeurs dispo
-#OAR -p host='n-in51' or host='n-in52' or host='n-in53'
+#OAR -p host='n-in79'
+### or host='n-in52' or host='n-in53'
 
 ###Nom du job et output et error file
 #OAR -n boomerAMG
