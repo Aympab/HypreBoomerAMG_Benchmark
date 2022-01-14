@@ -1,0 +1,29 @@
+DEBUT
+Fri Jan 14 22:56:33 CET 2022
++ export OMP_NUM_THREADS=1
++ OMP_NUM_THREADS=1
++ '[' -f /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp ']'
++ for param in 1 2 3 4 5 7 8 9 10 11
++ /softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun -n 28 /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp -n 8192 -quiet -agg_levels 1
++ for param in 1 2 3 4 5 7 8 9 10 11
++ /softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun -n 28 /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp -n 8192 -quiet -agg_levels 2
++ for param in 1 2 3 4 5 7 8 9 10 11
++ /softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun -n 28 /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp -n 8192 -quiet -agg_levels 3
++ for param in 1 2 3 4 5 7 8 9 10 11
++ /softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun -n 28 /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp -n 8192 -quiet -agg_levels 4
++ for param in 1 2 3 4 5 7 8 9 10 11
++ /softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun -n 28 /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp -n 8192 -quiet -agg_levels 5
++ for param in 1 2 3 4 5 7 8 9 10 11
++ /softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun -n 28 /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp -n 8192 -quiet -agg_levels 7
++ for param in 1 2 3 4 5 7 8 9 10 11
++ /softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun -n 28 /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp -n 8192 -quiet -agg_levels 8
++ for param in 1 2 3 4 5 7 8 9 10 11
++ /softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun -n 28 /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp -n 8192 -quiet -agg_levels 9
++ for param in 1 2 3 4 5 7 8 9 10 11
++ /softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun -n 28 /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp -n 8192 -quiet -agg_levels 10
++ for param in 1 2 3 4 5 7 8 9 10 11
++ /softs/mpi/openmpi-1.10.7/gcc-7.3.0/bin/mpirun -n 28 /gext/aymeric.millan/git_sophia/HypreBoomerAMG_Benchmark/tp -n 8192 -quiet -agg_levels 11
++ date
+Fri Jan 14 22:59:25 CET 2022
++ echo FIN
+FIN
