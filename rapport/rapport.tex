@@ -17,6 +17,12 @@
 \pagestyle{fancy}
 \fancyhead[R]{Ms HPC-AI}
 
+\fancypagestyle{firstpage}
+{
+    \fancyhead[L]{ \includegraphics[width=4cm]{fig/Logo_Mines_ParisTech.svg.png}}  
+    \fancyhead[R]{Ms HPC-AI}  
+}
+
 \bibliographystyle{unsrt}
 %% Title
 \title{
@@ -42,6 +48,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% RESUME
+\thispagestyle{firstpage}
 \begin{abstract}
 Voici le document regroupant nos benchmarks de
 \href{https://hypre.readthedocs.io/en/latest/solvers-boomeramg.html}{BoomerAMG},
@@ -153,7 +160,7 @@ De plus, on peut voir une perte de performance notable lorsqu'on passe de 1 à 2
 processus MPI. Cette étude a été réalisée avec les paramètres par défaut du
 solveur.
 Notons que nous avons pris soin de
-réserver trois noeuds qui se trouvent côte a côte sur le cluster.
+réserver trois noeuds qui se trouvent côte à côte sur le cluster.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -162,8 +169,8 @@ réserver trois noeuds qui se trouvent côte a côte sur le cluster.
 
 Voici ci-après une étude d'extensibilité faible du programme. Une fois de plus,
 les paramètres utilisés ici sont ceux par defauts : Cycle V, coarsening CLJP,
-interpolation classique, un seul balayage par niveau, pas de coarsening aggresif
-. Vous trouverez toutes les informations sur les paramètres par défaut dans le
+interpolation classique, un seul balayage par niveau, pas de coarsening aggresif.
+Vous trouverez toutes les informations sur les paramètres par défaut dans le
 code, et plus en détail sur le manuel de référence HYPRE.
 
 \begin{figure}[H]
@@ -263,7 +270,7 @@ Nous pouvons constater que ces paramètres fonctionnent donc aussi bien sur ce
 problème réel .mtx.
 De plus, le pic que nous avions obtenus en passant de 1 processus
 à 2 tend à s'effacer, probablement dû au fait de l'
-\textit{aggressive coarsening}. Malgré tout, les communications inter-nodes
+\textit{aggressive coarsening}. Malgré tout, les communications entre nœux
 semblent impacter grandement les performances.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -273,12 +280,12 @@ semblent impacter grandement les performances.
 CEMEF}
 
 Nous avons mis un certain temps avant de réaliser que certains de nos calculs
-devenaient longs à cause de la séparation des CPUs sur plusieurs nodes. En effet
-, en augmentant d'un le nombre de processus MPI, les calculs devenaient parfois
+devenaient longs à cause de la séparation des CPUs sur plusieurs nœux. En effet,
+en augmentant d'un le nombre de processus MPI, les calculs devenaient parfois
 100x plus lents.
 
-Nous avons d'abord pensé que la distance physique qui sépare les nodes dans
-les quels se trouvent les différents CPU utilisés par MPI impactait les
+Nous avons d'abord pensé que la distance physique qui sépare les nœux dans
+lesquels se trouvent les différents CPU utilisés par MPI impactait les
 performances. Pour en avoir le coeur net, nous avons décidé de réaliser l'étude.
 suivante :
 Il s'agit du temps de calcul pour un problème de taille fixe et pour \textbf{2}
@@ -294,7 +301,7 @@ itération). Voici les résultats que nous avons obtenus :
   \end{figure}
 
 Comme nous pouvons le constater, notre hypothèse était fausse. La distance
-physique qui sépare deux nodes n'impacte pas de manière significative les
+physique qui sépare deux nœux n'impacte pas de manière significative les
 performances. Cependant, nous pouvons voir que les performances sont
 grandement affectées par le fait de sortir du même noeud de calcul.
 Notre hypothèse est la suivante : comme les processus travaillent sur une
