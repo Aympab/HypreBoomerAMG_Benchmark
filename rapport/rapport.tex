@@ -15,7 +15,7 @@
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\fancyhead[R]{Profiling BoomerAMG}
+\fancyhead[R]{Ms HPC-AI}
 
 \bibliographystyle{unsrt}
 %% Title
@@ -241,21 +241,30 @@ les graphiques précédents.
 La combinaison de ces trois paramètres semble donc être efficace sur ce type de
 problème. Essayons maintenant de l'utiliser pour la résolution du problème
 Emilia923, sur un plus grand nombre de coeurs : 
-FIGURE EMILIA ICI OARJOB ENTRAIN DE tourner
 
-tout est dans le rep log/bigjob
-utiliser le parserdistance
+\begin{figure}[H]
+  \centering
+  \caption{Comparaison des paramètres sur Emilia923}
+  \includegraphics[width=0.45\textwidth]{fig/strong_best_param_emilia.png}
+\end{figure}
 
-% \begin{figure}[H]
-%   \centering
-%   \caption{Comparaison des paramètres}
-%   \includegraphics[width=0.45\textwidth]{fig/strong_best_param.png}
-% \end{figure}
+Les résidus en fin de résolution sont du même ordre de grandeur tout le temps
+($10^-9$), cependant, on peut constater avec le graphique suivant que le nombre
+d'itérations par résolution augmente avec les paramètres fixés. Cela pourrait
+être une piste pour essayer d'utiliser au mieux la librairie.
 
-Nous pouvons constater que ces paramètres fonctionnent aussi bien sur un plus
-gros problème. De plus, le pic que nous avions obtenus en passant de 1 processus
-à 2 disparait. Cependant, nous pouvons constater que les communications
-inter-nodes semblent impacter grandement les performances.
+\begin{figure}[H]
+  \centering
+  \caption{Nombre d'itérations sur Emilia923}
+\includegraphics[width=0.45\textwidth]{fig/strong_best_param_emilia_nbiter.png}
+\end{figure}
+
+Nous pouvons constater que ces paramètres fonctionnent donc aussi bien sur ce
+problème réel .mtx.
+De plus, le pic que nous avions obtenus en passant de 1 processus
+à 2 tend à s'effacer, probablement dû au fait de l'
+\textit{aggressive coarsening}. Malgré tout, les communications inter-nodes
+semblent impacter grandement les performances.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -325,12 +334,11 @@ des sytèmes qui ne sont pas des matrices carrées.
   \item Donner la possibilité d'importer le vecteur solution en
 entrée du programme, comme pour la matrice de départ.
   \item Étude plus approfondie sur le coût des communications MPI.
-  \item HYPRE donne la possibilité d'être utilisé sur GPU. Pour
-cela, il faut compiler la librairie avec nvcc. Il aurait été intéressant de
+  \item HYPRE donne la possibilité d'être utilisé sur GPU. Il aurait été intéressant de
 comparer les performances entre une version CPU et une version GPU. Malgré nos
-efforts, les versions de CUDA qui font tourner HYPRE sont très anciennes (9.2)
+efforts, les versions de CUDA qui font tourner HYPRE sont anciennes
 et ne tournent que sur des "vieux" systèmes d'exploitations (e.g. Ubuntu 16.04).
-Ces versions n'étaient pas disponibles sur les machines que nous avons à
+Ces versions ne sont pas disponibles sur les machines que nous avons à
 disposition à l'école.
 \end{itemize}
 
