@@ -3,16 +3,15 @@
 ### script pour executer des jobs sur Cluster Cemef
 
 ### nombre de cores et duree max du job
-#OAR -l core=28,walltime=10:00:00
+#OAR -l core=84,walltime=10:00:00
 ##OAR -p nbcores=28
 
 ###On veut un seul node sinon les perfs sont detruites
 ###Astuce : on fait un oarinfo -f pour voir ou on a au moins 28 coeurs dispo
-#OAR -p host='n-in79'
-###or host='n-in54' or host='n-in55'
+#OAR -p host='n-in79' or host='n-in80' or host='n-in74'
 
 ###Nom du job et output et error file
-#OAR -n BAMG_param
+#OAR -n BAMG_params
 #OAR -O %jobid%.out
 #OAR -E %jobid%.out
 
@@ -35,11 +34,11 @@ set -x
 export OMP_NUM_THREADS=1
 
 if [ -f $MONPROG ] ; then
-  for np in 1 2 4 6 8 12 16 20 24 28
+  for np in 1 2 4 6 8 12 16 20 24 28 32 36 40 48 56 60 64 70 72 74 78 80 82 84
   do
     MPIRUN="$MPI_HOME/bin/mpirun -n ${np}"
-    $MPIRUN $MONPROG -n $NX $MYOPTIONS > log/strong/best_params/log-param${np}
-    $MPIRUN $MONPROG -n $NX -quiet > log/strong/default_params/log-def_param${np}
+    $MPIRUN $MONPROG -file $MYDATA $MYOPTIONS > log/strong/big_job/log-param${np}
+    $MPIRUN $MONPROG -file $MYDATA -quiet > log/strong/big_job/log-default-param${np}
   done
 else
    echo "ERREUR : programme $MONPROG inexistant !!"
