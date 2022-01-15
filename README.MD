@@ -12,6 +12,6 @@
 
 ### Paramètre `-file`
 A l'éxécution, vous pouvez utiliser l'option `-file chemin/vers/matrixmarket.mtx` pour utiliser le solveur sur une matrice réelle. 
-Vous trouverez quelques matrices dans le répertoire `matrices/`.
+Vous trouverez une matrice symmétrique définie positive dans `matrices/Pres_Poisson.mtx` dans l'archive. L'autre matrice de l'archive n'est pas SDP, elle ne fonctionne donc pas par défaut avec le solveur.
 
 Sinon, n'hésitez pas à télécharger une matrice symmétrique définie positive au format CSR sur [ce site](https://sparse.tamu.edu/).
