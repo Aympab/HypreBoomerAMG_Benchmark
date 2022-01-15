@@ -63,7 +63,7 @@ Le deuxième objectif du projet est la réalisation d'études
 d'extensibilités :
 \begin{description}
     \item [Forte :] Avec
-\href{https://sparse.tamu.edu/Janna/Emilia_923}{un problème de taille fiche}
+\href{https://sparse.tamu.edu/Janna/Emilia_923}{un problème de taille fixe}
 au format Matrix Market, nous augmentons le nombre de processus MPI.
     \item [Faible :] En partant de $1$ processus MPI et
 d'un problème de taille $n \times n$, nous doublons la taille du problème
@@ -106,11 +106,11 @@ solution. Nous avons téléchargé quelques matrices de ce type dans le réperto
 
 Pour le benchmarking, nous avons utilisé un script shell qui formate les données
 des logs OAR en fichiers csv.
-Ensuite, à l'aide de python et surtout de la librairie \code{pandas}, nous avons
-traité les données pour les visualiser ici.
+Ensuite, avec python, nous avons
+traité les données pour les visualiser dans ce rapport.
 Les données brutes sont disponibles dans le répertoire \code{log/} du projet.
 
-Pour ce qui est de la lecture de fichier \code{.mtx} et le découpage sur les
+Pour ce qui est de la lecture de fichiers \code{.mtx} et le découpage sur les
 différents coeurs de calculs, nous avons utilisé la librairie
 \href{https://eigen.tuxfamily.org/index.php?title=Main_Page}{Eigen}.
 La difficulté était premièrement de s'approprier la librairie, notamment les
@@ -143,8 +143,7 @@ environ $4\times 10^6$ nnz., et $923136$ lignes et colonnes.
 En gardant ce même problème tout au long de l'étude, nous allons augmenter
 le nombre de processus MPI en parralèle. Nous montons jusqu'à $3 \times 28 = 84$
 processus car cela correspond à $3$ noeuds de calcul du cluster CEMEF complets.
-Nous avons délimité par la ligne horizontale rouge le nombre de coeurs pour un
-même noeud.
+Nous avons délimité les différents noeuds avec les lignes horizontales rouges.
 Voici les résultats de ces exécutions :
 
 \begin{figure}[H]
@@ -255,7 +254,8 @@ Emilia923, sur un plus grand nombre de coeurs :
 \end{figure}
 
 Les résidus en fin de résolution sont du même ordre de grandeur tout le temps
-($10^-9$), cependant, on peut constater avec le graphique suivant que le nombre
+($10^{-9}$), les solutions convergent donc correctement.
+On peut constater avec le graphique suivant que le nombre
 d'itérations par résolution augmente avec les paramètres fixés. Cela pourrait
 être une piste pour essayer d'utiliser au mieux la librairie.
 
@@ -266,7 +266,7 @@ d'itérations par résolution augmente avec les paramètres fixés. Cela pourrai
 \end{figure}
 
 Nous pouvons constater que ces paramètres fonctionnent donc aussi bien sur ce
-problème réel .mtx.
+problème réel.
 De plus, le pic que nous avions obtenus en passant de 1 processus
 à 2 tend à s'effacer, probablement dû au fait de l'
 \textit{aggressive coarsening}. Malgré tout, les communications entre nœux
@@ -285,7 +285,7 @@ en augmentant d'un le nombre de processus MPI, les calculs devenaient parfois
 
 Nous avons d'abord pensé que la distance physique qui sépare les nœux dans
 lesquels se trouvent les différents CPU utilisés par MPI impactait les
-performances. Pour en avoir le coeur net, nous avons décidé de réaliser l'étude.
+performances. Pour en avoir le coeur net, nous avons décidé de réaliser l'étude
 suivante :
 Il s'agit du temps de calcul pour un problème de taille fixe et pour \textbf{2}
 processus MPI. L'idée est d'avoir deux CPUs qui sont bien sur deux noeuds
@@ -309,7 +309,7 @@ utilisons de la programmation en mémoire distribuée, les communications MPI
 sont largement optimisées. Entre autres, nous n'avons pas besoin d'accéder
 au réseau. En conclusion, si notre problème peut rentrer dans la mémoire RAM
 d'un seul noeud, il vaut mieux favoriser l'utilisation de tous les coeurs de
-ce noeud plutôt que d'ajouter des coeurs de calculs qui seraient sur des noeuds
+ce noeud plutôt que d'ajouter des coeurs de calculs qui sont sur des noeuds
 différents. Bien sûr, pour être sûr de cela, il faudrait faire une étude plus
 approfondie, notamment en mesurant le temps des communications par rapport au
 temps de calcul.
@@ -322,10 +322,10 @@ L'étude "approfondie"
 que nous avons mené nous a permis de découvrir de nouveaux aspects de la
 programmation haute performance. Entre autres, nous avons pu clairement
 ressentir l'impact des communications réseaux sur les performances.
-Une fois les outils et les concepts (un peu) appropriés, nous nous sommes aussi
+Une fois les outils et les concepts abordés, nous nous sommes aussi
 rendus compte du confort qu'apporte l'utilisation
 d'une librairie telle que HYPRE,
-qui masque l'implémentation des communications MPI. C'est quand même un niveau
+qui masque l'implémentation des communications MPI. C'est un niveau
 d'abstraction qui rend la programmation assez agréable et rassurante, tout en
 nous permettant de garder un contrôle sur la performance
 car nous restons dans un langage bas niveau avec le C/C++.
