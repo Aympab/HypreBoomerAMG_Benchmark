@@ -211,9 +211,9 @@ sur un seul et même noeud. La taille du problème est fixé à $8096^2$.
 
 Il existe de nombreux autres paramètres qu'il faudrait étudier selon le profil
 de la matrice que nous essayons de résoudre. Mais avec ce que nous avons testé,
-et notre profil de matrice (symmétrique définie positive), nous allons garder
-les paramètres qui semblent minimiser le temps de calcul. En se basant sur les
-graphiques percédent, nous allons donc utiliser :
+et notre profil de matrice (symmétrique définie positive), nous allons combiner
+les paramètres qui semblent minimiser le temps de calcul en se basant sur les
+trois précédents graphiques, nous allons donc utiliser :
 
 \begin{description}
   \item[Coarsening type] - Méthode utilisée pour réaliser le maillage grossier :
@@ -228,15 +228,40 @@ solve}).
 
 
 Voici une comparaison entre le temps d'exécution du solveur avec les  paramètres
-par défaut de HYPRE et les paramètres que nous avons choisis :
+par défaut de HYPRE et les paramètres que nous avons choisis. Il s'agit d'une
+étude d'extensibilité forte, nous gardons la même taille de problème que pour
+les graphiques précédents.
 
+\begin{figure}[H]
+  \centering
+  \caption{Comparaison des paramètres}
+  \includegraphics[width=0.45\textwidth]{fig/strong_best_param.png}
+\end{figure}
 
+La combinaison de ces trois paramètres semble donc être efficace sur ce type de
+problème. Essayons maintenant de l'utiliser pour la résolution du problème
+Emilia923, sur un plus grand nombre de coeurs : 
+FIGURE EMILIA ICI OARJOB ENTRAIN DE tourner
 
+tout est dans le rep log/bigjob
+utiliser le parserdistance
+
+% \begin{figure}[H]
+%   \centering
+%   \caption{Comparaison des paramètres}
+%   \includegraphics[width=0.45\textwidth]{fig/strong_best_param.png}
+% \end{figure}
+
+Nous pouvons constater que ces paramètres fonctionnent aussi bien sur un plus
+gros problème. De plus, le pic que nous avions obtenus en passant de 1 processus
+à 2 disparait. Cependant, nous pouvons constater que les communications
+inter-nodes semblent impacter grandement les performances.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ETUDE DISTANCE
-\section{Étude de l'impact de la distance entre deux noeuds sur le CEMEF}
+\section{Étude de l'impact de la distance entre deux noeuds sur le cluster
+CEMEF}
 
 Nous avons mis un certain temps avant de réaliser que certains de nos calculs
 devenaient longs à cause de la séparation des CPUs sur plusieurs nodes. En effet
